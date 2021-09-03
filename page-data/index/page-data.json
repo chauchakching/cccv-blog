@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-pages-index-js",
+    "path": "/",
+    "result": {"data":{"site":{"siteMetadata":{"title":"cccv blog"}},"allMarkdownRemark":{"nodes":[{"excerpt":"It has been some time since I last studied Haskell.\nWhen I look at Monad again, it feels more comfortable about it, and the way to use it to…","fields":{"slug":"/2021-09-03-viewing-pandoc-source-code-on-vs-code/"},"frontmatter":{"date":"September 02, 2021","title":"Viewing Pandoc source code on VS code","description":null}}]}},"pageContext":{}},
+    "staticQueryHashes": ["2841359383","3257411868"]}

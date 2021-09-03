@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 03 Sep 2021 12:27:09 GMT</lastBuildDate><item><title><![CDATA[Viewing Pandoc source code on VS code]]></title><description><![CDATA[It has been some time since I last studied Haskell.
+When I look at Monad again, it feels more comfortable about it, and the way to use it to…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/2021-09-03-viewing-pandoc-source-code-on-vs-code/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/2021-09-03-viewing-pandoc-source-code-on-vs-code/</guid><pubDate>Thu, 02 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/cf8fc86b2259a9b32bec6645b656b5be/ec09f/pandoc-vscode-type-hinting.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67.08860759493672%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB90lEQVQ4y32T626jMBCF8x4bgrn4hm9AgJCklXbf/6G+lZ2k21ba/jjSgMznc2aGQ9u2NLJDyBahO4TtqE1H0zaIpuVUC05Vxel0+lHV88yhbRqENFRa88sqKqOpraLPF7Qdx1NNVR3LBz/pBT0IUdNqR+tHGhdofWDcVpwPyL5Hdj05RUnyUvN8bppSCyH+OazrE8olzDTTzyPKO+bzwjjN3G53btc71+uNbds4rxfO+52QJpzzSKlRStN1/WdgjbQeGRMieewY+fP7jX3fiNPCcrkxTmfM4FHaFEDfywLJyvVDfdGhyZFNQIRINXr0mLhdr8XRPM2sy8r5vOCdx/usQAjxi4wxJXbXdRzatsF6jxsTfUoM48h2uZZo521nWS9s+431+sa631m3nZRSifxSdp37WYC5cG5gGCzaWOQQ6OZ3/PZOnBfCshOXC0Oc0ENAm4FGNNS1KK5EqeuPaR/ytJSSOGfp+44m90Zp7DCU91JKpNJIpZAy9639WJHva/PYw7ZjGAzTFNFaI7VBakuaZkLwBWxDxMURY22J9XmRv+sZ2ZKSR2qNMgPGR7Qxj8kpQ28snVTFbb40Q/8LzJGN0aWPvVRlinkHYwxYa9F2wMWEdb6cy7Bs4kdgCI55To+Pp8cgfEy4Vx+z06er4/H45Vf7Dv4LLPh4I2xCX3gAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;pandoc-vscode-type-hinting&quot;
+        title=&quot;pandoc-vscode-type-hinting&quot;
+        src=&quot;/static/cf8fc86b2259a9b32bec6645b656b5be/f058b/pandoc-vscode-type-hinting.png&quot;
+        srcset=&quot;/static/cf8fc86b2259a9b32bec6645b656b5be/c26ae/pandoc-vscode-type-hinting.png 158w,
+/static/cf8fc86b2259a9b32bec6645b656b5be/6bdcf/pandoc-vscode-type-hinting.png 315w,
+/static/cf8fc86b2259a9b32bec6645b656b5be/f058b/pandoc-vscode-type-hinting.png 630w,
+/static/cf8fc86b2259a9b32bec6645b656b5be/40601/pandoc-vscode-type-hinting.png 945w,
+/static/cf8fc86b2259a9b32bec6645b656b5be/78612/pandoc-vscode-type-hinting.png 1260w,
+/static/cf8fc86b2259a9b32bec6645b656b5be/ec09f/pandoc-vscode-type-hinting.png 1916w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;It has been some time since I last studied Haskell.
+When I look at Monad again, it feels more comfortable about it, and the way to use it to write code.
+So I’ve decided to have a look at the most popular Haskell software - Pandoc, to see how Haskell is used
+to structure a large and mature programme.&lt;/p&gt;
+&lt;p&gt;However it took more than I expected to view the source code plus Haskell plugin for type hinting on VS code.&lt;/p&gt;
+&lt;h2 id=&quot;getting-started&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#getting-started&quot; aria-label=&quot;getting started permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Getting started&lt;/h2&gt;
+&lt;p&gt;First step, clone the repository.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone https://github.com/jgm/pandoc.git
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; pandoc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then, open it with VS code.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;code &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=haskell.haskell&quot;&gt;VS code plugin Haskell&lt;/a&gt; should be the most convenient and popular one for type check and type hinting as of now.
+I remember the last time it required you to install Haskell Language Server manually.&lt;/p&gt;
+&lt;p&gt;That’s it! …right? No.&lt;/p&gt;
+&lt;h2 id=&quot;first-error-message&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#first-error-message&quot; aria-label=&quot;first error message permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;First error message&lt;/h2&gt;
+&lt;p&gt;An error message popped up on VS code.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Project requires Cabal but it isn’t installed&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Frankly, I’ve never used &lt;code class=&quot;language-text&quot;&gt;cabal&lt;/code&gt; to build and package Haskell project. I picked &lt;code class=&quot;language-text&quot;&gt;stack&lt;/code&gt;.
+Apparently I have to learn both eventually, despite the suggestion of “just pick one (stack) and stick to it”.&lt;/p&gt;
+&lt;p&gt;So I followed the instruction of the error message, and use &lt;code class=&quot;language-text&quot;&gt;ghcup&lt;/code&gt; to install &lt;code class=&quot;language-text&quot;&gt;ghc&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;cabal&lt;/code&gt; on &lt;a href=&quot;https://www.haskell.org/ghcup/&quot;&gt;https://www.haskell.org/ghcup/&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;the-same-error-message&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-same-error-message&quot; aria-label=&quot;the same error message permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The same error message&lt;/h2&gt;
+&lt;p&gt;The error message persisted. What..?&lt;/p&gt;
+&lt;p&gt;After some frustration and some google searches, I found &lt;a href=&quot;https://github.com/haskell/haskell-language-server/issues/236#issuecomment-877706828&quot;&gt;this github issue comment&lt;/a&gt; that &lt;strong&gt;somehow&lt;/strong&gt; resolved the issue, by opening VS code with additional flag &lt;code class=&quot;language-text&quot;&gt;--force-user-env&lt;/code&gt;!&lt;/p&gt;
+&lt;h2 id=&quot;ghc-version-not-supported&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ghc-version-not-supported&quot; aria-label=&quot;ghc version not supported permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;ghc version not supported&lt;/h2&gt;
+&lt;p&gt;After restarting vs code with the additional flag, the error was gone, but another one popped up:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;haskell-language-server 1.3.0 for GHC 8.10.7 is not available on Darwin. See the list of supported versions here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I happened to pick a ghc version that is not supported by haskell language server. Okay, let’s install another one.
+I checked the supported ghc versions on &lt;a href=&quot;https://github.com/haskell/vscode-haskell#supported-ghc-versions&quot;&gt;https://github.com/haskell/vscode-haskell#supported-ghc-versions&lt;/a&gt;, and check the ghc version I’s using with command &lt;code class=&quot;language-text&quot;&gt;ghcup tui&lt;/code&gt;. Right, I’s using &lt;code class=&quot;language-text&quot;&gt;8.10.7&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;At the time, the support for version &lt;code class=&quot;language-text&quot;&gt;9.0.1&lt;/code&gt; was limited. Alright, let’s downgrade it to &lt;code class=&quot;language-text&quot;&gt;8.10.5&lt;/code&gt; with the &lt;code class=&quot;language-text&quot;&gt;ghcup&lt;/code&gt; tool.&lt;/p&gt;
+&lt;h2 id=&quot;stuck-in-the-build-process&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#stuck-in-the-build-process&quot; aria-label=&quot;stuck in the build process permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Stuck in the build process&lt;/h2&gt;
+&lt;p&gt;Error messages are all gone now! All I need to do is to wait a hackable long time for the haskell plugin to initialize.
+It needs to build the project. At some point, my macbook’s fan stopped spinning, however the building process was still in progress.&lt;/p&gt;
+&lt;p&gt;I checked the vs code output of the haskell plugin. Turned out the build process hanged at the “building the network package”.&lt;/p&gt;
+&lt;p&gt;Luckily, I found the solution on &lt;a href=&quot;https://github.com/haskell/cabal/issues/6845#issuecomment-873501610&quot;&gt;this github issue&lt;/a&gt; again.
+All I need do was to change to &lt;strong&gt;another ghc version&lt;/strong&gt;. Let’s downgrade again to &lt;code class=&quot;language-text&quot;&gt;8.10.4&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The build process went thorough the network package!&lt;/p&gt;
+&lt;h2 id=&quot;final-step-wait&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#final-step-wait&quot; aria-label=&quot;final step wait permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;final step: wait&lt;/h2&gt;
+&lt;p&gt;Wait for the build process to finish. Then, voila! Isn’t is easy?&lt;/p&gt;</content:encoded></item></channel></rss>
