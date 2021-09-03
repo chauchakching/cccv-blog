@@ -252,6 +252,9 @@ a:focus {
 
 .global-header {
   margin-bottom: var(--spacing-12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .main-heading {
@@ -295,11 +298,9 @@ a:focus {
   margin-bottom: var(--spacing-0);
 }
 
-.bio-avatar {
-  margin-right: var(--spacing-4);
-  margin-bottom: var(--spacing-0);
-  min-width: 50px;
-  border-radius: 100%;
+.github-avatar {
+  opacity: 0.3;
+  margin-top: 4px;
 }
 
 .blog-post header h1 {
