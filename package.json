@@ -1,11 +1,11 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "cccv-blog",
   "private": true,
-  "description": "A starter for a blog powered by Gatsby and Markdown",
+  "description": "blog",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "chauchakching",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/chauchakching/cccv-blog/issues"
   },
   "dependencies": {
     "gatsby": "^3.12.1",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "prettier": "2.3.2"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
+  "homepage": "https://cccv.blog",
   "keywords": [
     "gatsby"
   ],
@@ -44,7 +44,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "git+https://github.com/chauchakching/cccv-blog.git"
   },
   "scripts": {
     "build": "gatsby build",
