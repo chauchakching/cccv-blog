@@ -1,9 +1,10 @@
 ---
 title: Viewing Pandoc source code on VS code
 date: "2021-09-02"
+featuredImage: "pandoc-vscode-type-hinting.png"
 ---
 
-![pandoc-vscode-type-hinting](./pandoc-vscode-type-hinting.png)
+![pandoc-vscode-type-hinting](pandoc-vscode-type-hinting.png)
 
 It has been some time since I last studied Haskell. 
 When I look at Monad again, it feels more comfortable about it, and the way to use it to write code.
