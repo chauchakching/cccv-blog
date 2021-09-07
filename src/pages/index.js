@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
+import Img from "gatsby-image"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -30,6 +31,8 @@ const BlogIndex = ({ data, location }) => {
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
+          const featuredImgFluid =
+            post.frontmatter.featuredImage?.childImageSharp?.fluid
 
           return (
             <li key={post.fields.slug}>
@@ -46,6 +49,11 @@ const BlogIndex = ({ data, location }) => {
                   </h2>
                   <small>{post.frontmatter.date}</small>
                 </header>
+                {post.frontmatter.featuredImage && (
+                  <figure>
+                    <Img fluid={featuredImgFluid} />
+                  </figure>
+                )}
                 <section>
                   <p
                     dangerouslySetInnerHTML={{
@@ -82,6 +90,13 @@ export const pageQuery = graphql`
           date(formatString: "MMMM DD, YYYY")
           title
           description
+          featuredImage {
+            childImageSharp {
+              fluid(maxWidth: 800) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
         }
       }
     }

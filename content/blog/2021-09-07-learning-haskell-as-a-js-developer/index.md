@@ -1,6 +1,7 @@
 ---
 title: Learning Haskell as a JS developer
 date: "2021-09-07"
+featuredImage: "js-haskell-ratio.png"
 ---
 
 As a developer using primarily JavaScript for years, my first attempt to learn Haskell was to skip reading bunch of documentation and just get started with intuition. The attempt failed miserabily.
