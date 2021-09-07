@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 07 Sep 2021 16:35:38 GMT</lastBuildDate><item><title><![CDATA[Learning Haskell as a JS developer]]></title><description><![CDATA[As a developer using primarily JavaScript for years, my first attempt to learn Haskell was to skip reading bunch of documentation and just…]]></description><link>https://cccv.blog/2021-09-07-learning-haskell-as-a-js-developer/</link><guid isPermaLink="false">https://cccv.blog/2021-09-07-learning-haskell-as-a-js-developer/</guid><pubDate>Tue, 07 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;As a developer using primarily JavaScript for years, my first attempt to learn Haskell was to skip reading bunch of documentation and just get started with intuition. The attempt failed miserabily.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 07 Sep 2021 17:16:11 GMT</lastBuildDate><item><title><![CDATA[Learning Haskell as a JS developer]]></title><description><![CDATA[As a developer using primarily JavaScript for years, my first attempt to learn Haskell was to skip reading bunch of documentation and just…]]></description><link>https://cccv.blog/2021-09-07-learning-haskell-as-a-js-developer/</link><guid isPermaLink="false">https://cccv.blog/2021-09-07-learning-haskell-as-a-js-developer/</guid><pubDate>Tue, 07 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;As a developer using primarily JavaScript for years, my first attempt to learn Haskell was to skip reading bunch of documentation and just get started with intuition. The attempt failed miserabily.&lt;/p&gt;
 &lt;h2 id=&quot;setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#setup&quot; aria-label=&quot;setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Setup&lt;/h2&gt;
 &lt;p&gt;First, you need &lt;code class=&quot;language-text&quot;&gt;ghc&lt;/code&gt; at least to compile Haskell code. How would you install that? The Haskell official website provided me the &lt;strong&gt;non-optimal&lt;/strong&gt; way to manage the &lt;code class=&quot;language-text&quot;&gt;ghc&lt;/code&gt; installation, which was to install a specific &lt;code class=&quot;language-text&quot;&gt;ghc&lt;/code&gt; version into the system. It was not optimal because you can indeed use &lt;code class=&quot;language-text&quot;&gt;stack&lt;/code&gt; to bootstrap your project, and manage the &lt;code class=&quot;language-text&quot;&gt;ghc&lt;/code&gt; version for you.&lt;/p&gt;
 &lt;p&gt;However, it’s better now that a more comprehensive tool &lt;code class=&quot;language-text&quot;&gt;GHCup&lt;/code&gt; &lt;a href=&quot;https://www.haskell.org/downloads/#linux-mac-freebsd&quot;&gt;is available on the officla Haskell website&lt;/a&gt;. But &lt;code class=&quot;language-text&quot;&gt;stack&lt;/code&gt; is also suggested as the alternative. So, which one should a newcomer pick…?&lt;/p&gt;
@@ -159,26 +159,26 @@ When I look at Monad again, it feels more comfortable about it, and the way to u
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/cf8fc86b2259a9b32bec6645b656b5be/ec09f/pandoc-vscode-type-hinting.png&quot;
+    href=&quot;/static/f0b61cd5c10fc3fb1605e3276e5e1c84/c830c/pandoc-vscode-type-hinting.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 67.08860759493672%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB90lEQVQ4y32T626jMBCF8x4bgrn4hm9AgJCklXbf/6G+lZ2k21ba/jjSgMznc2aGQ9u2NLJDyBahO4TtqE1H0zaIpuVUC05Vxel0+lHV88yhbRqENFRa88sqKqOpraLPF7Qdx1NNVR3LBz/pBT0IUdNqR+tHGhdofWDcVpwPyL5Hdj05RUnyUvN8bppSCyH+OazrE8olzDTTzyPKO+bzwjjN3G53btc71+uNbds4rxfO+52QJpzzSKlRStN1/WdgjbQeGRMieewY+fP7jX3fiNPCcrkxTmfM4FHaFEDfywLJyvVDfdGhyZFNQIRINXr0mLhdr8XRPM2sy8r5vOCdx/usQAjxi4wxJXbXdRzatsF6jxsTfUoM48h2uZZo521nWS9s+431+sa631m3nZRSifxSdp37WYC5cG5gGCzaWOQQ6OZ3/PZOnBfCshOXC0Oc0ENAm4FGNNS1KK5EqeuPaR/ytJSSOGfp+44m90Zp7DCU91JKpNJIpZAy9639WJHva/PYw7ZjGAzTFNFaI7VBakuaZkLwBWxDxMURY22J9XmRv+sZ2ZKSR2qNMgPGR7Qxj8kpQ28snVTFbb40Q/8LzJGN0aWPvVRlinkHYwxYa9F2wMWEdb6cy7Bs4kdgCI55To+Pp8cgfEy4Vx+z06er4/H45Vf7Dv4LLPh4I2xCX3gAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 41.139240506329116%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABf0lEQVQoz4WSS5OiMBhF3fIKSUignRq1GhUEBGxHBZ+bnv//l85UdLprdrM4lZssbr7HnURRSCgkfqzwZIwvJZ4QBCIiDAO8IMTzfDzP+y++7zMJw5BIakSSEiUGYSyzPGddlvyczfgxnTLNpqRpSppmf3npLPuXN4QQTIIgQEiFNBZhEuIkoet7hmHkdBq43x5cLzfu98fzfhjOHC4PdocTXddTVTVFUVKWG5IkcRUGCKWRNkWkhjhN2e06rteBtm3pfg3sjwP97oNm27GpajabinVRkudLlsvVN8aYL0NDbDPCzBK/pYznC5+fvxnHV5XX6+15NnVD02yp64bttqVtuydOO9woJm4pUSyJlCbUitgaPvZ7htOJ4/GFM3MjGMbzE/ehe3dmru2XcY+11hlGaK3IXHVSoY3lvahZ9SOr7Z513VI0/ZO86nkvG/KiYjFfMJvNv5nPFyilXoZuO44vHQhFrC3GWHSSoBKDdmiNUhIpJS4dLiZuqV+42PwBA5jXAjQTJ+4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;pandoc-vscode-type-hinting&quot;
         title=&quot;pandoc-vscode-type-hinting&quot;
-        src=&quot;/static/cf8fc86b2259a9b32bec6645b656b5be/f058b/pandoc-vscode-type-hinting.png&quot;
-        srcset=&quot;/static/cf8fc86b2259a9b32bec6645b656b5be/c26ae/pandoc-vscode-type-hinting.png 158w,
-/static/cf8fc86b2259a9b32bec6645b656b5be/6bdcf/pandoc-vscode-type-hinting.png 315w,
-/static/cf8fc86b2259a9b32bec6645b656b5be/f058b/pandoc-vscode-type-hinting.png 630w,
-/static/cf8fc86b2259a9b32bec6645b656b5be/40601/pandoc-vscode-type-hinting.png 945w,
-/static/cf8fc86b2259a9b32bec6645b656b5be/78612/pandoc-vscode-type-hinting.png 1260w,
-/static/cf8fc86b2259a9b32bec6645b656b5be/ec09f/pandoc-vscode-type-hinting.png 1916w&quot;
+        src=&quot;/static/f0b61cd5c10fc3fb1605e3276e5e1c84/f058b/pandoc-vscode-type-hinting.png&quot;
+        srcset=&quot;/static/f0b61cd5c10fc3fb1605e3276e5e1c84/c26ae/pandoc-vscode-type-hinting.png 158w,
+/static/f0b61cd5c10fc3fb1605e3276e5e1c84/6bdcf/pandoc-vscode-type-hinting.png 315w,
+/static/f0b61cd5c10fc3fb1605e3276e5e1c84/f058b/pandoc-vscode-type-hinting.png 630w,
+/static/f0b61cd5c10fc3fb1605e3276e5e1c84/40601/pandoc-vscode-type-hinting.png 945w,
+/static/f0b61cd5c10fc3fb1605e3276e5e1c84/78612/pandoc-vscode-type-hinting.png 1260w,
+/static/f0b61cd5c10fc3fb1605e3276e5e1c84/c830c/pandoc-vscode-type-hinting.png 1754w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
