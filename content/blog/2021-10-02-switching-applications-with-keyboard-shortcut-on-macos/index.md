@@ -15,7 +15,7 @@ Let's setup a few custom shortcuts like `caps+E` and `caps+S` switch between you
 
 Follow the [instructions from the official website](https://karabiner-elements.pqrs.org/docs/getting-started/installation/) to install application, and don't miss all the security config changes required.
 
-After Karabiner is properly set up, go to https://ke-complex-modifications.pqrs.org/#Jesse_Tutorial_Hyper_Plus_Others to import this `CAPS_LOCK to Hyper/Escape` rule set. Actually only the `CAPS_LOCK to HYPER (SHIFT+COMMAND+OPTION+CONTROL) or ESCAPE (If Alone)` rule is needed. (btw I've been long used to have `Caps` replaced with `Esc`). 
+After Karabiner is properly set up, go to [KE-complex_modifications](https://ke-complex-modifications.pqrs.org/#Jesse_Tutorial_Hyper_Plus_Others) to import this `CAPS_LOCK to Hyper/Escape` rule set. Actually only the `CAPS_LOCK to HYPER (SHIFT+COMMAND+OPTION+CONTROL) or ESCAPE (If Alone)` rule is needed. (btw I've been long used to have `Caps` replaced with `Esc`). 
 
 I only keep this rule after import.
 
