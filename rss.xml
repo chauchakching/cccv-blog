@@ -1,4 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 29 Sep 2021 15:25:52 GMT</lastBuildDate><item><title><![CDATA[Amazing SQLite]]></title><description><![CDATA[With the great power and simplicity, SQLite has been underrated compared to other SQL databases like MySQL, PostreSQL, etc. Do you know…]]></description><link>https://cccv.blog/2021-09-29-amazing-sqlite/</link><guid isPermaLink="false">https://cccv.blog/2021-09-29-amazing-sqlite/</guid><pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 02 Oct 2021 12:29:20 GMT</lastBuildDate><item><title><![CDATA[Switching applications with keyboard shortcut on macOS]]></title><description><![CDATA[At some point, simple “Cmd + Tab” is not fast and precise enough to switch between applications. Using “Cmd + Space” to search for…]]></description><link>https://cccv.blog/2021-10-02-switching-applications-with-keyboard-shortcut-on-macos/</link><guid isPermaLink="false">https://cccv.blog/2021-10-02-switching-applications-with-keyboard-shortcut-on-macos/</guid><pubDate>Sat, 02 Oct 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;At some point, simple “Cmd + Tab” is not fast and precise enough to switch between applications. Using “Cmd + Space” to search for application is ok, but too slow for frequently used applications.&lt;/p&gt;
+&lt;p&gt;Let’s setup a few custom shortcuts like &lt;code class=&quot;language-text&quot;&gt;caps+E&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;caps+S&lt;/code&gt; switch between your most used applications like &lt;strong&gt;VS code&lt;/strong&gt;, &lt;strong&gt;Slack&lt;/strong&gt; and &lt;strong&gt;Chrome&lt;/strong&gt; (on macOS)!&lt;/p&gt;
+&lt;h2 id=&quot;1-karabiner-elements---key-combination-mapping&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#1-karabiner-elements---key-combination-mapping&quot; aria-label=&quot;1 karabiner elements   key combination mapping permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1. Karabiner-Elements - key combination mapping&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://karabiner-elements.pqrs.org&quot;&gt;Karabiner&lt;/a&gt; is a popular keyboard customier for macOS. We’re going to use it to change the key &lt;code class=&quot;language-text&quot;&gt;caps&lt;/code&gt; to &lt;code class=&quot;language-text&quot;&gt;shift+cmd+option+ctrl&lt;/code&gt; (“hyper key”), because we&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;don’t want to use too-simple shortcuts that might have been used by other applications already&lt;/li&gt;
+&lt;li&gt;don’t want to press the 4 keys at once&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Follow the &lt;a href=&quot;https://karabiner-elements.pqrs.org/docs/getting-started/installation/&quot;&gt;instructions from the official website&lt;/a&gt; to install application, and don’t miss all the security config changes required.&lt;/p&gt;
+&lt;p&gt;After Karabiner is properly set up, go to &lt;a href=&quot;https://ke-complex-modifications.pqrs.org/#Jesse_Tutorial_Hyper_Plus_Others&quot;&gt;https://ke-complex-modifications.pqrs.org/#Jesse_Tutorial_Hyper_Plus_Others&lt;/a&gt; to import this &lt;code class=&quot;language-text&quot;&gt;CAPS_LOCK to Hyper/Escape&lt;/code&gt; rule set. Actually only the &lt;code class=&quot;language-text&quot;&gt;CAPS_LOCK to HYPER (SHIFT+COMMAND+OPTION+CONTROL) or ESCAPE (If Alone)&lt;/code&gt; rule is needed. (btw I’ve been long used to have &lt;code class=&quot;language-text&quot;&gt;Caps&lt;/code&gt; replaced with &lt;code class=&quot;language-text&quot;&gt;Esc&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;I only keep this rule after import.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/864db9b5714cbb3a2ae2583cb66900df/49853/karabiner-mapping.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 61.39240506329114%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAAB20lEQVQoz6XSz27aMBwH8N/KaQQhTZu0J9it1257rb3ADs2kvcYO3CcRKYehrYfuz6EaISrdICZxHEOASFR1gGCHEE82lSga1Tbt8JHt/H7+yk4Cz+D46Oqi9arrdd4ib3Da6/VMz/NMz+ub3Z8D8+zbpfnp/ML8+Pm72W63b2tbCCHlFCH0pt/vv261Wk+hclSpYoxnEY1kGIbS930ZhkSSEMuuR+T7r4l8dzaTX9yRjIiqB7oHY6xFUaQRQqRt2y/AMAwjCAKMEJJBEOTD4bCglBZRFBXxkBYIjwqnnxRUreO4SJJkT0TImlK6wRgvLcs6gVqtZvi+T2bX13I+n2/SNC0VxljJ0rScz9NytWT62WKxKEWebwlR5nmu+24YU7fjzWbzBOr1ug5kaSrzPN9wIaS4Q605381Xq9UeFZplmQ60LOv5LpAxtWGzbeRyN97Bf8c5LxfL5eFAoQL54Y334UKUy/sC90/4N1aHTzgYDDBj+h2uuRDFn4hbep7n6yzLSoxxpj9KtVo1CCEJpVSOx2NtNBrJOI4PUrXpdConk4meq3Eynep/0bbtlwAAD13X/eC6Lup0OpeO41z9o67jOD9c1203Go1jFfgAAOoA8AQAHv+HRwBQ+QVPpvCaYihr7gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;karabiner-rule&quot;
+        title=&quot;karabiner-rule&quot;
+        src=&quot;/static/864db9b5714cbb3a2ae2583cb66900df/f058b/karabiner-mapping.png&quot;
+        srcset=&quot;/static/864db9b5714cbb3a2ae2583cb66900df/c26ae/karabiner-mapping.png 158w,
+/static/864db9b5714cbb3a2ae2583cb66900df/6bdcf/karabiner-mapping.png 315w,
+/static/864db9b5714cbb3a2ae2583cb66900df/f058b/karabiner-mapping.png 630w,
+/static/864db9b5714cbb3a2ae2583cb66900df/40601/karabiner-mapping.png 945w,
+/static/864db9b5714cbb3a2ae2583cb66900df/78612/karabiner-mapping.png 1260w,
+/static/864db9b5714cbb3a2ae2583cb66900df/49853/karabiner-mapping.png 2224w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;2-hammerspoon---define-the-action-of-shortcut&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#2-hammerspoon---define-the-action-of-shortcut&quot; aria-label=&quot;2 hammerspoon   define the action of shortcut permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;2. Hammerspoon - define the action of shortcut&lt;/h2&gt;
+&lt;p&gt;Now we need &lt;a href=&quot;https://www.hammerspoon.org/&quot;&gt;Hammerspoon&lt;/a&gt; to define what will be executed after pressing our hyper key shortcuts. &lt;a href=&quot;https://www.hammerspoon.org/&quot;&gt;Follow the instruction&lt;/a&gt; and go to github release page to download and install it.&lt;/p&gt;
+&lt;p&gt;The final step is to create your &lt;code class=&quot;language-text&quot;&gt;~/.hammerspoon/init.lua&lt;/code&gt;. It doesn’t matter if you don’t know how to write Lua yet. Here is my &lt;code class=&quot;language-text&quot;&gt;init.lua&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;lua&quot;&gt;&lt;pre class=&quot;language-lua&quot;&gt;&lt;code class=&quot;language-lua&quot;&gt;hyperKey &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;shift&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;control&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;option&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;command&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;-- reload config&lt;/span&gt;
+hs&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;hotkey&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;hyperKey&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  hs&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;reload&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+appShortcutMap &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  b &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Google Chrome&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  e &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Visual Studio Code&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  s &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Slack&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  t &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;iTerm&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; k&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; v &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;pairs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;appShortcutMap&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  hs&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;hotkey&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;hyperKey&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; k&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    hs&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;application&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;launchOrFocus&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;v&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;-- if hs.application.get(v):isFrontmost() then&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;--   hs.application.get(v):hide()&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;-- else&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;--   hs.application.launchOrFocus(v)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;-- end&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I’ve set up a few &lt;code class=&quot;language-text&quot;&gt;Caps+?&lt;/code&gt; shortcuts for my frequently used applications. You can change the mapping as you like.&lt;/p&gt;
+&lt;p&gt;After updating the script, you have to reload it.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/adba03b4a698460a826f7855bdd5f370/669eb/hammerspoon-console.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 93.0379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAABYlAAAWJQFJUiTwAAADKElEQVQ4y6WTXW/bVBjHzwYCzQgJvgy3fAouFok7QFzwBbiAC1SpTVUIr6qEtK0EonVQmm4N7UQvCtIAbbHrOFVst02dNE2a5sV2Ejt2bJ9z/sjulo0yYBWP9PNzju3np+c8lsl2r0ne/eD9yx99+vWVhQ8zwnx6Trh27brw8cK8kL+5IPzw/S1hefmWkM1mhVwuJywuLgqzs7PCfHpeSKfTCZlMRpiZmXmeMUYIGh1yb3nl9bb8i/rH4a+lqmGUDvb3FcMwlN3KgVIsFhVRFBVZlpOsqqpSq9WS54ZhlAzD2KnVatVSqfQeAELiy81cLrWnadD396AoCn7/7R5EqYxv8xqUcgWaqkJ9iKZq0DUdmqZN0XUd29vbn0+FS0tLqaIkQZJ3ImlHoveLD6gk79CiJNOKplJN16iqqVRVz6g8SaUSxNKtra1PpsL1jULKPOnBOjxlVr3L7XoXVq0Du96BZXRgH/cwbFtJto/7GJ5aCaOuzX3fp67rQpKkzFSYv7OWGvZsBP0xC6wxn5hjxAS2h3DoI7DGiEYTsICCeiGoHyFykj0HQMMwhCiKj4V3NtdTZr0De/eE2WqbD/Y6sHZbCJ0JRoc92NopRkYfttrGQD9NsnNkIhh4iTAIgvPCQiK0lBazK20eF1nlFvyeA/fYht934XVGMJUmnLoJUz5O7rsNiwe2R8MohFh8Unj3TGjKTWaVWzzuIC6KO3wUE2uMvtjAsNpF70E96dIsNbnfcWgYRX8V3t5YT1nNHoZ7XTasdrlTMzHc7yJyg2SOdBKBBhH8rhMfE35nlOSJ6XI2if4+w9X8air+UgAYPwtwxhFnRhk4Y/iHePoMV1fPCcGTN+PVtJLzp/HfQvZI+QywfxN63jgRPjzGRaA0OjfDtbX81Z45wMCZRPbIpxdh4PiBNXBRLIqPf73NzbtvqtUTlLQj7OoNlPWjZ6SBslZH5eAE98XSV1Ph3Nzsaz9tbl1fyRdu/LhWWLoIK/n1G4WNn7/7Jpt9IxF++cVnlwghLxBCXiKEvEoIeeWCxDUvE0JefOvtdy4Tzx2Rdrt1CcBz/4exN4kd5E+V1cXzHnvJmAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;hammerspoon-console&quot;
+        title=&quot;hammerspoon-console&quot;
+        src=&quot;/static/adba03b4a698460a826f7855bdd5f370/f058b/hammerspoon-console.png&quot;
+        srcset=&quot;/static/adba03b4a698460a826f7855bdd5f370/c26ae/hammerspoon-console.png 158w,
+/static/adba03b4a698460a826f7855bdd5f370/6bdcf/hammerspoon-console.png 315w,
+/static/adba03b4a698460a826f7855bdd5f370/f058b/hammerspoon-console.png 630w,
+/static/adba03b4a698460a826f7855bdd5f370/40601/hammerspoon-console.png 945w,
+/static/adba03b4a698460a826f7855bdd5f370/669eb/hammerspoon-console.png 1244w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If you have alrady ran the script, and are going to further modify it, the &lt;code class=&quot;language-text&quot;&gt;Caps+R&lt;/code&gt; shortcut should have registered to reload the config of Hammerspoon. You can use it instead of going to the console and click “Reload config”.&lt;/p&gt;
+&lt;h2 id=&quot;3-profit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#3-profit&quot; aria-label=&quot;3 profit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;3. Profit&lt;/h2&gt;
+&lt;p&gt;It takes some time to suppress the urge to press &lt;code class=&quot;language-text&quot;&gt;Cmd+Tab&lt;/code&gt;, and use the new shortcuts. But once you get used it, it’s much faster to switch between applications.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Amazing SQLite]]></title><description><![CDATA[With the great power and simplicity, SQLite has been underrated compared to other SQL databases like MySQL, PostreSQL, etc. Do you know…]]></description><link>https://cccv.blog/2021-09-29-amazing-sqlite/</link><guid isPermaLink="false">https://cccv.blog/2021-09-29-amazing-sqlite/</guid><pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
     &gt;
