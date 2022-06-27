@@ -16,7 +16,7 @@ However the interface of it had been changing until `v12.17.0` (2020). ([mdn](ht
 
 ## Nodejs `worker_threads` module
 
-This is an example of the main process spawning a worker.
+This is an example of the main thread spawning a worker.
 
 ```ts
 // index.ts
