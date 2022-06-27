@@ -90,7 +90,7 @@ However the interface of it had been changing until <code class="language-text">
   </a>
     </span></p>
 <h2 id="nodejs-worker_threads-module" style="position:relative;"><a href="#nodejs-worker_threads-module" aria-label="nodejs worker_threads module permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Nodejs <code class="language-text">worker_threads</code> module</h2>
-<p>This is an example of the main process spawning a worker.</p>
+<p>This is an example of the main thread spawning a worker.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// index.ts</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Worker <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"worker_threads"</span>
 
@@ -135,6 +135,29 @@ If we want to pass data to workers, we have to do it explicitly, either with <co
         <span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'main thread got results from workers:'</span><span class="token punctuation">,</span> results<span class="token punctuation">)</span></code></pre></div>
+<h3 id="isolated-import-in-worker" style="position:relative;"><a href="#isolated-import-in-worker" aria-label="isolated import in worker permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Isolated import in worker</h3>
+<p>For the sake of thread safety, all data sharing between threads must be explicit.
+The import of a file in a worker is isolated from the import of the same file in the main thread / other workers.</p>
+<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// mutableObj.ts</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span> count<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span></code></pre></div>
+<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// worker.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> parentPort <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"worker_threads"</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> obj <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./mutableObj"</span>
+
+parentPort<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span></code></pre></div>
+<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// index.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Worker <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"worker_threads"</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> obj <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./mutableObj"</span>
+
+<span class="token comment">// mutate the value from the import</span>
+obj<span class="token punctuation">.</span>count <span class="token operator">+=</span> <span class="token number">1</span>
+
+<span class="token comment">// spawn a worker</span>
+<span class="token keyword">const</span> worker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span><span class="token string">"./worker"</span><span class="token punctuation">)</span>
+
+worker<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"mssage"</span><span class="token punctuation">,</span> objFromWorker <span class="token operator">=></span> <span class="token punctuation">{</span>
+  assert<span class="token punctuation">.</span><span class="token function">deepStrictEqual</span><span class="token punctuation">(</span>objFromWorker<span class="token punctuation">,</span> <span class="token punctuation">{</span> count<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
 <h2 id="threadsjs-library" style="position:relative;"><a href="#threadsjs-library" aria-label="threadsjs library permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code class="language-text">threads.js</code> library</h2>
 <p><span
       class="gatsby-resp-image-wrapper"
