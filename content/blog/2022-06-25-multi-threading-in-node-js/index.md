@@ -81,6 +81,40 @@ const results = await superStream.fromValues([1,2,3, ...])
 console.log('main thread got results from workers:', results)
 ```
 
+### Isolated import in worker
+
+For the sake of thread safety, all data sharing between threads must be explicit.
+The import of a file in a worker is isolated from the import of the same file in the main thread / other workers.
+
+```ts
+// mutableObj.ts
+export const obj = { count: 0 }
+```
+
+```ts
+// worker.ts
+import { parentPort } from "worker_threads"
+import { obj } from "./mutableObj"
+
+parentPort.postMessage(obj)
+```
+
+```ts
+// index.ts
+import { Worker } from "worker_threads"
+import { obj } from "./mutableObj"
+
+// mutate the value from the import
+obj.count += 1
+
+// spawn a worker
+const worker = new Worker("./worker")
+
+worker.on("mssage", objFromWorker => {
+  assert.deepStrictEqual(objFromWorker, { count: 0 })
+})
+```
+
 ## `threads.js` library
 
 ![threads.js](./threads-js-logo.png)
