@@ -1,14 +1,22 @@
 # cccv-blog
 
-My blog about programming. 
+My blog about programming.
 
 Built with static site generator Gatsby, using starter [gatsby-starter-blog](https://github.com/gatsbyjs/gatsby-starter-blog)
 
 ## Getting started
 
 ```bash
-npm install
+yarn
 
 # start development server
-npm run develop
+yarn develop
+```
+
+## Commands
+
+```bash
+# bootstrap blog post template
+yarn new-blog
+
 ```
