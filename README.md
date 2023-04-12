@@ -17,6 +17,6 @@ yarn develop
 
 ```bash
 # bootstrap blog post template
-yarn new-blog
+yarn new-blog "Blog Post Title"
 
 ```
