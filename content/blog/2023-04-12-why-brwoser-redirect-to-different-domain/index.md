@@ -78,9 +78,9 @@ function willDomainChangeWhenRedirect(url: string) {
 }
 ```
 
-At the end, I had no way to implement the logic, and had to rely on browser's implementation
-to parse the url string and get the hostname. I wonder: what is the url
-construction logic in the browser engine?
+At the end, I had to rely on browser's implementation to parse the url string and get the hostname.
+Any custom logic in implementation could differs from the browser's implementation.
+I wonder: what is the url construction logic in the browser engine?
 
 # Checking chromium source code
 
