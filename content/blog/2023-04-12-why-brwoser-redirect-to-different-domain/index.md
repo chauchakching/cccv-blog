@@ -11,7 +11,7 @@ window.location.href = "/\\abc.com"
 ```
 
 , where would the browser take me to? `example.com/\abc.com`? or `abc.com`?
-When I first bumped into this question, I thought I know how the browser's behavior pretty well.
+When I first bumped into this question, I thought I knew how the browser's behavior pretty well.
 
 # Analysis
 
