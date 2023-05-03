@@ -1,6 +1,6 @@
 name: Deploy
 
-on: 
+on:
   push:
     branches:
       - master
@@ -17,11 +17,11 @@ jobs:
       - uses: jorelali/setup-elm@v3
         with:
           elm-version: 0.19.1
-          
+
       - name: Install and Build
         run: |
-          npm install
-          npm run build
+          yarn
+          yarn build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
