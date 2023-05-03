@@ -1,4 +1,709 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 27 Jun 2022 07:35:56 GMT</lastBuildDate><item><title><![CDATA[Multi threading in node-js]]></title><description><![CDATA[Recently I happened to write some nodejs scripts to do some simple static analysis with babel.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 03 May 2023 16:49:31 GMT</lastBuildDate><item><title><![CDATA[The Right Setup to Run TypeScript with Node.js and Importing ESM NPM Modules in a TypeScript Web Frontend]]></title><description><![CDATA[In this blog post, we will discuss the discovery and teaching of the right setup to run TypeScript with Node.js and importing some ESM NPM…]]></description><link>https://cccv.blog/2023-05-04-typescript-nodejs-scripts-folder-setup-with-esm-imports/</link><guid isPermaLink="false">https://cccv.blog/2023-05-04-typescript-nodejs-scripts-folder-setup-with-esm-imports/</guid><pubDate>Thu, 04 May 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In this blog post, we will discuss the discovery and teaching of the right setup to run TypeScript with Node.js and importing some ESM NPM modules, inside the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, under the repo setup that is for a TypeScript web frontend, without changing config files on the repo root level.&lt;/p&gt;
+&lt;h2 id=&quot;constraints-and-conditions&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#constraints-and-conditions&quot; aria-label=&quot;constraints and conditions permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Constraints and Conditions&lt;/h2&gt;
+&lt;p&gt;Before we dive into the key points of the setup, let’s take a look at the constraints and conditions we will be working with:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The project should be a TypeScript web frontend.&lt;/li&gt;
+&lt;li&gt;We should run TypeScript with Node.js and import ESM NPM modules.&lt;/li&gt;
+&lt;li&gt;The setup should be done inside a &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder.&lt;/li&gt;
+&lt;li&gt;No config files on the repo root level should be changed.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now, let’s proceed with the key points of the setup.&lt;/p&gt;
+&lt;h2 id=&quot;key-points-of-the-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#key-points-of-the-setup&quot; aria-label=&quot;key points of the setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Key Points of the Setup&lt;/h2&gt;
+&lt;h3 id=&quot;1-run-ts-node-with---esm-flag&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#1-run-ts-node-with---esm-flag&quot; aria-label=&quot;1 run ts node with   esm flag permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1. Run &lt;code class=&quot;language-text&quot;&gt;ts-node&lt;/code&gt; with &lt;code class=&quot;language-text&quot;&gt;--esm&lt;/code&gt; Flag&lt;/h3&gt;
+&lt;p&gt;In order to run TypeScript with Node.js and import ESM NPM modules, we need to use the &lt;code class=&quot;language-text&quot;&gt;--esm&lt;/code&gt; flag when running &lt;code class=&quot;language-text&quot;&gt;ts-node&lt;/code&gt;. This enables support for ECMAScript modules.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;ts-node --esm script.ts&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;2-create-packagejson-in-the-scripts-folder&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#2-create-packagejson-in-the-scripts-folder&quot; aria-label=&quot;2 create packagejson in the scripts folder permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;2. Create &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt; in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; Folder&lt;/h3&gt;
+&lt;p&gt;Inside the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, create a &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt; file with just one property, &lt;code class=&quot;language-text&quot;&gt;type: &quot;module&quot;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;module&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This tells Node.js that all JavaScript files in this folder should be treated as ECMAScript modules.&lt;/p&gt;
+&lt;h3 id=&quot;3-create-a-separate-tsconfigjson-in-the-scripts-folder&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#3-create-a-separate-tsconfigjson-in-the-scripts-folder&quot; aria-label=&quot;3 create a separate tsconfigjson in the scripts folder permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;3. Create a Separate &lt;code class=&quot;language-text&quot;&gt;tsconfig.json&lt;/code&gt; in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; Folder&lt;/h3&gt;
+&lt;p&gt;We need a separate &lt;code class=&quot;language-text&quot;&gt;tsconfig.json&lt;/code&gt; file in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder to configure TypeScript for our Node.js scripts. This allows us to have different TypeScript configurations for the web frontend and the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder.&lt;/p&gt;
+&lt;p&gt;Create a &lt;code class=&quot;language-text&quot;&gt;tsconfig.json&lt;/code&gt; file in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder with the following content:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;compilerOptions&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;module&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ESNext&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ES2020&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;esModuleInterop&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;moduleResolution&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;node&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;outDir&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./dist&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;baseUrl&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;.&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;include&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;./**/*.ts&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This configuration sets the module system to &lt;code class=&quot;language-text&quot;&gt;ESNext&lt;/code&gt; and the target to &lt;code class=&quot;language-text&quot;&gt;ES2020&lt;/code&gt;, which enables support for ECMAScript modules and modern JavaScript features.&lt;/p&gt;
+&lt;h3 id=&quot;4-use-js-extension-in-typescript-script-imports&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#4-use-js-extension-in-typescript-script-imports&quot; aria-label=&quot;4 use js extension in typescript script imports permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;4. Use &lt;code class=&quot;language-text&quot;&gt;.js&lt;/code&gt; Extension in TypeScript Script Imports&lt;/h3&gt;
+&lt;p&gt;When importing another TypeScript file in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, use the &lt;code class=&quot;language-text&quot;&gt;.js&lt;/code&gt; extension for the relative import path, as required by the ESM specification in Node.js. However, do not use the &lt;code class=&quot;language-text&quot;&gt;.ts&lt;/code&gt; extension, as this will cause a TypeScript error.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Correct import statement&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; myFunction &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./myModule.js&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// Incorrect import statement&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; myFunction &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./myModule.ts&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By following these key points, you can set up a TypeScript project with Node.js and import ESM NPM modules without changing any config files on the repo root level, while keeping everything inside the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;generated-by-chatgpt-gpt-4&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#generated-by-chatgpt-gpt-4&quot; aria-label=&quot;generated by chatgpt gpt 4 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Generated by ChatGPT gpt-4&lt;/h1&gt;
+&lt;p&gt;The above blog post was 100% generated by gpt-4 with the following prompt:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;write a blog post in markdown syntax about the discovery and teaching of the right setup to run typescript with nodejs and importing some esm npm modules, inside &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, under the repo setup that is for a typescript web frontend, without changing config files on the repo root level.
+Specify the constraints and conditions beforehand.&lt;/p&gt;
+&lt;p&gt;Then, for the key points of the setup involves&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;running &lt;code class=&quot;language-text&quot;&gt;ts-node&lt;/code&gt; with &lt;code class=&quot;language-text&quot;&gt;--esm&lt;/code&gt; flag&lt;/li&gt;
+&lt;li&gt;creating &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt; in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, with just one property &lt;code class=&quot;language-text&quot;&gt;type: &quot;module&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;creating a separate &lt;code class=&quot;language-text&quot;&gt;tsconfig.json&lt;/code&gt; in the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder&lt;/li&gt;
+&lt;li&gt;in typescript script in&lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, when importing another ts file, the relative import path should includes extension &lt;code class=&quot;language-text&quot;&gt;.js&lt;/code&gt; because of esm requirement of nodejs, but not &lt;code class=&quot;language-text&quot;&gt;.ts&lt;/code&gt; because of typescript error&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</content:encoded></item><item><title><![CDATA[Why brwoser redirect to different domain with text "/\abc.com"?]]></title><description><![CDATA[If I run this script , where would the browser take me to? ? or ?
+When I first bumped into this question, I thought I knew how the browser’s…]]></description><link>https://cccv.blog/2023-04-12-why-brwoser-redirect-to-different-domain/</link><guid isPermaLink="false">https://cccv.blog/2023-04-12-why-brwoser-redirect-to-different-domain/</guid><pubDate>Wed, 12 Apr 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;If I run this script&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ts&quot;&gt;&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// originally on https://example.com&lt;/span&gt;
+window&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;location&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;href &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/\\abc.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;, where would the browser take me to? &lt;code class=&quot;language-text&quot;&gt;example.com/\abc.com&lt;/code&gt;? or &lt;code class=&quot;language-text&quot;&gt;abc.com&lt;/code&gt;?
+When I first bumped into this question, I thought I knew how the browser’s behavior pretty well.&lt;/p&gt;
+&lt;h1 id=&quot;analysis&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#analysis&quot; aria-label=&quot;analysis permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Analysis&lt;/h1&gt;
+&lt;p&gt;The string &lt;code class=&quot;language-text&quot;&gt;&quot;/\\abc.com&quot;&lt;/code&gt; in js has an extra backslash to escape the backslash to represent text &lt;code class=&quot;language-text&quot;&gt;/\abc.com&lt;/code&gt;.
+As the string starts with a single forward slash &lt;code class=&quot;language-text&quot;&gt;/&lt;/code&gt;, it should be a relative path, right? But no.
+When I run&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ts&quot;&gt;&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;window&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;location&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;href &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/\\abc.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;, browser takes me to &lt;code class=&quot;language-text&quot;&gt;abc.com&lt;/code&gt;.
+Which means it is indeed an absolute path. Why??&lt;/p&gt;
+&lt;p&gt;Here are the most common cases of browser redirect (potentially relative) url for redirect:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;https://google.com&lt;/code&gt;: includes protocol/scheme &lt;code class=&quot;language-text&quot;&gt;https&lt;/code&gt;, so it’s an absolute path&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;//abc.com&lt;/code&gt;: not that common, but &lt;a href=&quot;https://stackoverflow.com/questions/6785442/browser-support-for-urls-beginning-with-double-slash&quot;&gt;it’s an absolute path&lt;/a&gt; and stated in in RFC 1808&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;/home&lt;/code&gt;: the usual relative path&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;apple&lt;/code&gt;: a relative path, and the redirect will replace the last part of pathname with &lt;code class=&quot;language-text&quot;&gt;apple&lt;/code&gt; e.g. &lt;code class=&quot;language-text&quot;&gt;example.com/a/b/c&lt;/code&gt; -&gt; &lt;code class=&quot;language-text&quot;&gt;example.com/a/b/apple&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;home.html&lt;/code&gt;: a relative path, similar to &lt;code class=&quot;language-text&quot;&gt;apple&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;/home.html&lt;/code&gt;: a relative path, similar to &lt;code class=&quot;language-text&quot;&gt;home.html&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;None of the cases have anything to do with the backslash &lt;code class=&quot;language-text&quot;&gt;\&lt;/code&gt;.&lt;/p&gt;
+&lt;h1 id=&quot;mdn&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#mdn&quot; aria-label=&quot;mdn permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;MDN?&lt;/h1&gt;
+&lt;p&gt;Didn’t mention anything special about backslash.&lt;/p&gt;
+&lt;h1 id=&quot;google&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#google&quot; aria-label=&quot;google permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Google?&lt;/h1&gt;
+&lt;p&gt;Couldn’t really find anything related to url redirect with backslash.&lt;/p&gt;
+&lt;h1 id=&quot;would-chatgpt-gpt-4-know-the-answer&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#would-chatgpt-gpt-4-know-the-answer&quot; aria-label=&quot;would chatgpt gpt 4 know the answer permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Would ChatGPT (GPT-4) know the answer?&lt;/h1&gt;
+&lt;p&gt;Let’s give it a try.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/152c41e1de5d1b01db51e2cebf4ed392/17d12/ask-chatgpt-1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 96.20253164556962%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAABYlAAAWJQFJUiTwAAAC9klEQVQ4y41U2W7TUBB1kXirxG8h9T8QVCgVBbXJP7RNaatGLYjlqbzDC18BbbPvcRzHjndn85qDZhwnKeWBKx3N3JnrubOca2E+90DwPP8BfH8tHWcMy3Iwm81Xds9bf0P2FEIURXxoPB7DMEw4jgvLslknaZoWS7LbtsM6yXRP38VxjMViwRBoE4YhdN2AJMlQVQ3DocpQlETKQ4UD+UGwrMbjb+aeB98PsLkEys513fUt8WJ1W4rUR2vTTitNKAgChiDLQ9zcfIM0UNBoddHuiKjWmqjVWywbzQ66PQn1RhvNpb/e7KDV7vF5sS9DHqpw3QkmkykEauR0OoNhWFAUDUNlBFXVoY4S0F7TDCiqhoGsYDRa+yjQeDzhNlAckhyQJkUf0u10Y08cMCgztkky2t3+ytYVJZZ0li5Kg/GUk4AeO6msVkfcCCyhRrZleVQ+ldtYlkyg1ui6uaKPkEa3bIfLJtABg+niwDRtttm2C92weE+gPZ3RmWrjvzP0OaNSuY5ytcFZVapN1inrX7clHlCxXEepUsd9qYa7YpX1Sq0Jw7QfB6RedDoi90nsD7jhhL40RLvTQ78vw3ZcmJbDhGbpuElVpvXvoVBP2tzDHgdaDUeU+BKaNrVjpBms08SJ8I+mTAqlTUFHmglNNzljVdNh2S4HT/waxpMp5jSAuYfpMhlaq5KJg1EY4fuPnzg+LeAkf4mj4wtG/uQSp/kCjo8ukM8XkD8t4P3ZFc7Pr3F2doXLwidcXX/F5y83/ObpGQrEblo7z3cgCAK2tp5CEJ6w/r/Y3n6GbldEFMVJhvEC+Hj9Aa9fvEQum0U2e4jDgwPs7b9B5t0+Mm/3Wd/LZJBZYm8vwe7uK+RyOWianmSY1u4HIbwggueH8IMIszk99ogRBjECQhizj/S5FzDIRouCPaANTff3bYm5eF9KOFYs1xK9XMddsYIi86/CPuJl+sMg6jzgIb8Uy2EaEKdoyvQaUpqkLyTRTT4bBskvizLbpM0fUIJJ0TWZsg8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-1&quot;
+        title=&quot;ask-chatgpt-1&quot;
+        src=&quot;/static/152c41e1de5d1b01db51e2cebf4ed392/f058b/ask-chatgpt-1.png&quot;
+        srcset=&quot;/static/152c41e1de5d1b01db51e2cebf4ed392/c26ae/ask-chatgpt-1.png 158w,
+/static/152c41e1de5d1b01db51e2cebf4ed392/6bdcf/ask-chatgpt-1.png 315w,
+/static/152c41e1de5d1b01db51e2cebf4ed392/f058b/ask-chatgpt-1.png 630w,
+/static/152c41e1de5d1b01db51e2cebf4ed392/40601/ask-chatgpt-1.png 945w,
+/static/152c41e1de5d1b01db51e2cebf4ed392/78612/ask-chatgpt-1.png 1260w,
+/static/152c41e1de5d1b01db51e2cebf4ed392/17d12/ask-chatgpt-1.png 1666w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Nahhh, wrong. ChatGPT thought &lt;code class=&quot;language-text&quot;&gt;/\abc.com&lt;/code&gt; was a relative path too.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/36d264751eaa2f55788959c2d6696726/17d12/ask-chatgpt-2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 93.0379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAABYlAAAWJQFJUiTwAAACtklEQVQ4y5VUyXLTQBBVAlwgyddk4UAwF4pvyOfAhTP5DKjKH4RzuMQLjixL3rTLi6SRvMlL/KhuWeMslQOueu6entGbN909o2TZAkF/iFpdg6a3cdcw0NBa0I0OW1UzdrbZ4nnL9uAHA/QHI4RhjPk8w2w2ZyhEWGCxWErsYgs5pg8JNF4uV3JtEScoWZazx0JAiAQiSRDHAkmSIk1TGUvTMe7v77HZbNjusOFYAYX+1us1iDiTO82lOo5nGZbLJV76PSK8vv4N3w+QJGMIkeY2SXOIwpLqBFEk2LIfC4RRjCQd8wknk2mew5ubP+j2LE64bnTRNDpo6h1ozTbbVseE3upywWieCtTuWhyjolAq6FSSkCRPp3PeLYwE70wgdWRHo4grSRiFESsin1QSGakmsqIWCrH3t21DKrlFGgbqqg6t2UK1puJvXcOdqrMllXW1KddXaiqLoZzLtiElpuVwf5m2y7ZnOjAtF7bjy5jleLBsl+N+MMxPFcaYTGayF5mQ5NMHjuvD9QLYjsdEnt/PiWyXfdcN5HwQDPO0RALj8eQ5Yadnsyoi7W79h5ZI2TcplseNVo/niFjmkHptMBhxddvbihLoA1a9VUQbFcopRsR5POCiSIVEOByGnPBOx4Kq6lAbOkzT4SM6jg+XUkHHfQLP6/P8cBjtCKltfv66wulpCefnn3F2VsLZ+084Of2I45Pzxzj+8MiWSl94/ddv37HZUPvNcsLLH5dQFAVHb9/h8OgQBwcH2Hu1D+X1Xo43+zz/Ei4uLvgK0tEVei2CoI9yuYJqtca2QKVc3aKCSqX6DLT+9raMXs982ocJbIdaos++SMaIRcogn24Q2ShKeD6OU47lNpFPl7wp9CAEwYCLU9zJ2XTGoLzQOLcPMZd+sYYJV6s1P1/F+0bj1Wr1n1hL/ANXr0lcLun6QwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-2&quot;
+        title=&quot;ask-chatgpt-2&quot;
+        src=&quot;/static/36d264751eaa2f55788959c2d6696726/f058b/ask-chatgpt-2.png&quot;
+        srcset=&quot;/static/36d264751eaa2f55788959c2d6696726/c26ae/ask-chatgpt-2.png 158w,
+/static/36d264751eaa2f55788959c2d6696726/6bdcf/ask-chatgpt-2.png 315w,
+/static/36d264751eaa2f55788959c2d6696726/f058b/ask-chatgpt-2.png 630w,
+/static/36d264751eaa2f55788959c2d6696726/40601/ask-chatgpt-2.png 945w,
+/static/36d264751eaa2f55788959c2d6696726/78612/ask-chatgpt-2.png 1260w,
+/static/36d264751eaa2f55788959c2d6696726/17d12/ask-chatgpt-2.png 1666w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Even given with feedback to correct the answer, ChatGPT couldn’t tell why.&lt;/p&gt;
+&lt;h1 id=&quot;more-background&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#more-background&quot; aria-label=&quot;more background permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;More background&lt;/h1&gt;
+&lt;p&gt;Actually my ultimate goal was to create a function that determines if a string would
+cause domain change in browser redirect. Long story short, with the help of ChatGPT,
+I have the following function:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ts&quot;&gt;&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;willDomainChangeWhenRedirect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Create a link element to easily parse the input URL&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; link &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  link&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;href &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; url
+
+  &lt;span class=&quot;token comment&quot;&gt;// Get the hostname of the input URL and the current window&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; newHostname &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; link&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;hostname
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; currentHostname &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; window&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;location&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;hostname
+
+  &lt;span class=&quot;token comment&quot;&gt;// Compare the hostnames and return true if they are different&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; newHostname &lt;span class=&quot;token operator&quot;&gt;!==&lt;/span&gt; currentHostname
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;At the end, I had to rely on browser’s implementation to parse the url string and get the hostname.
+Any custom logic in implementation could differs from the browser’s implementation.
+I wonder: what is the url construction logic in the browser engine?&lt;/p&gt;
+&lt;h1 id=&quot;checking-chromium-source-code&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#checking-chromium-source-code&quot; aria-label=&quot;checking chromium source code permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Checking chromium source code&lt;/h1&gt;
+&lt;p&gt;I was left with one final choice: check the source code of chromium. But the project is huge.
+It would take me lots of time! What if, we ask ChatGPT for guidance?&lt;/p&gt;
+&lt;p&gt;Let’s start from asking for entry point of reading the source code.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3f77253bcfb82cd039b6686282d7c95b/81315/ask-chatgpt-chromium-1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 108.22784810126582%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC1ElEQVQ4y41V13biUAzk/38n+xubSrFxwwbcO25AwuwZ2dcLyT4s50xun0gaSV70/YBhOAvO5wvO5/M3XFBVJxRFja4bZP33/nlek4dYXK9XOWjaFnV9EpxOjUDN1b5C13Vo2246q9G2Lb6+vgRC2Pc9/CBEnhcy58WmaQV8qOZqPQyD3CMR73ZdD/VbkPV2Az4/P/G/v9vtJvi7Mb4nFpqm4+npF7KshLf3cfQj7A/+hACHYyj7vh/JyLXsH4L5Ps/quhEs6Kbn7eXQsl04uz1sx4O982ROGNYO5h14btoutqYDy/Hg7o/iuohClS6XK3buAbphwzAdma83WyzXOpYrDdrWEhISbDQTUZQgSXMkSYY4ySS2JGMsF/xD5EWJPC+RZQWKspIx5aM0G/fzYlK4v0uxEYpMLFSLKE5xOAZT3AIc/VDAOeMWRgmatpsff8eDhVzQmo1mYGvYEic16ltL9hmKIIz/SXZPOhPSgt8vH3hfbvD6tsLL2wrPrx9Ya4bEz7AcEY1W+0EkY1nWEn8WxmyhmjBOfGA7rljk7EYSClBWNYqikjinWSGCqPgqYdopHDNhGCaSHlR0o5uSFlRd0y3ZW1H1lS7Wv39s8Py6hGHaco8WP7hM1agg40T3mJOMIUcmuOsdZc1/5HoH8YZWNk0n1XG9XH+KQpf4eFR6HKM4mVQeK4OiMG7KfaYXQ8CU+pE2JFGVwcQmCWOqoBJeVRRd5ZpikvyHy0wPxoXxYdx4mVVCrNb6TMJ4rjeGjKwc7rEIyDGr3La9WGZaLhx3L/mnrDUnItY240tiZgFLk6Sabsre3GCVy1TK2x8n+KinJjs20bHJsnOPe+1d821QTSX5mDZRgjCMhZigAIIgRhyniKJ0zjmuBdOcxMP35kDL7l2j63M723nyWClLiNqcF9Vjt1EfGX4KpOteR6g1y4o9s5BuVMhDlttF2t4I3lEfrT/NV3hZoRnKsgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-1&quot;
+        title=&quot;ask-chatgpt-chromium-1&quot;
+        src=&quot;/static/3f77253bcfb82cd039b6686282d7c95b/f058b/ask-chatgpt-chromium-1.png&quot;
+        srcset=&quot;/static/3f77253bcfb82cd039b6686282d7c95b/c26ae/ask-chatgpt-chromium-1.png 158w,
+/static/3f77253bcfb82cd039b6686282d7c95b/6bdcf/ask-chatgpt-chromium-1.png 315w,
+/static/3f77253bcfb82cd039b6686282d7c95b/f058b/ask-chatgpt-chromium-1.png 630w,
+/static/3f77253bcfb82cd039b6686282d7c95b/40601/ask-chatgpt-chromium-1.png 945w,
+/static/3f77253bcfb82cd039b6686282d7c95b/78612/ask-chatgpt-chromium-1.png 1260w,
+/static/3f77253bcfb82cd039b6686282d7c95b/81315/ask-chatgpt-chromium-1.png 1656w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;That’s a good start! Then I follow the steps to try to get to the source code:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the chromium source code link is real,&lt;/li&gt;
+&lt;li&gt;the directory path is also real,&lt;/li&gt;
+&lt;li&gt;the directory do contains the file &lt;code class=&quot;language-text&quot;&gt;html_anchor_element.cc&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;I couldn’t find the methods &lt;code class=&quot;language-text&quot;&gt;SetURLAttribute()&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;GetURLAttribute()&lt;/code&gt;, but&lt;/li&gt;
+&lt;li&gt;I did find &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/html/html_anchor_element.cc;l=309&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;HTMLAnchorElement::Href()&lt;/code&gt;&lt;/a&gt;, which is exactly what we’re looking for!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8960aec7d9a16bc65ae61c18bb41a2f9/28b65/ask-chatgpt-chromium-2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 50.632911392405056%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB6klEQVQoz22SycrbMBRG/bTd9dG6a1+gFLrqolDaP4mHxLM1eZQlx05OsQOFwi846HLhHulDCqxbmZ1DaU0jBI2QdF2HNhohJVIbVD+henvUUmnU3tMGbVpKNZCLntHOhycw40qjO0zbUqseZTq68Y7qFio1URY58s831Ok7Q98x+wU7O6zz2NnTDjO632Ue5z2B7hxt/8TOMLuFcXKc0x+cbl84pT8JS0+YNFyugrhZSORGIlcSsRKLO1e5HrzqO8Gv8Ex8+8Q1/0yhRkR3p6oyjMio6xQpDZNb8RvM/o7zy3Gw8yvL+vgPf98IwuQrcfKBS/QRoRsGu2HMgCkN13PI9Xw6YpdlQZYVFJWiEQo7TTweD7ZtPXhsG8uyEMRxTJyERNEFa2eGcUIqxSAG0nNOVdZHLy8riqomrxrKqqFqBHlRkuY5WV7QSIWdZ4IwvhFGNy7hlbISNFITpw1KdlSVpKoFSRJxfjtxS4tDsouzojrYxXUjqYU8HjRIs1eUfR9Gy2gdQrX0eiDPd0FBePlNdHmjyEvquqFtW4wxR6JX7J2NddsIrreMnV042f07LChpaM0+pI/Btu0YuomhH7B2wnvP8/nkvRWEUcL5ErHvh3D2SGWQtaIsyuM20zThJse6rv8Gd+F7/AXQpvIgmJMUHQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-2&quot;
+        title=&quot;ask-chatgpt-chromium-2&quot;
+        src=&quot;/static/8960aec7d9a16bc65ae61c18bb41a2f9/f058b/ask-chatgpt-chromium-2.png&quot;
+        srcset=&quot;/static/8960aec7d9a16bc65ae61c18bb41a2f9/c26ae/ask-chatgpt-chromium-2.png 158w,
+/static/8960aec7d9a16bc65ae61c18bb41a2f9/6bdcf/ask-chatgpt-chromium-2.png 315w,
+/static/8960aec7d9a16bc65ae61c18bb41a2f9/f058b/ask-chatgpt-chromium-2.png 630w,
+/static/8960aec7d9a16bc65ae61c18bb41a2f9/40601/ask-chatgpt-chromium-2.png 945w,
+/static/8960aec7d9a16bc65ae61c18bb41a2f9/78612/ask-chatgpt-chromium-2.png 1260w,
+/static/8960aec7d9a16bc65ae61c18bb41a2f9/28b65/ask-chatgpt-chromium-2.png 2414w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I haven’t written C++ since uni. But my rusty C++ knowledge served me good.
+After some digging, I traced to the &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/refs/heads/main:third_party/blink/renderer/core/dom/document.cc;l=7096;drc=9329f990b89052f1e7f82e0a1a4b298b72359263;bpv=1;bpt=1&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;KURL()&lt;/code&gt;&lt;/a&gt; constructor in &lt;code class=&quot;language-text&quot;&gt;third_party/blink/renderer/core/dom/document.cc&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d202f083210ce6cddce2c23841369b9d/28b65/ask-chatgpt-chromium-3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 50.632911392405056%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABw0lEQVQoz2WS647bIBBG/f6PV6mrtkm8dmJzNQQH8CXO7qnMRmnV/jj6vgFmxMBU07IxzwuDc2hj0MYSQsB5j7G2sO9Z5zCDww5fOnhf/H7ePNeUsVQ+bmgX8eGGHkYGHwhxYQgZYTzShuLztDAt6xfzQp6Xon9YiXmiciERxkjKX0kpT7w1nu9t5KQ3fomFn/3MQS4c1cJBzpz0Sm02anOn1veXNvZO9e3k+HEeEW5FhTs2rPRCE2NmWe+Mt1RIaeaWMjFNrOuD7QO2x+d/VMdGULcKF6bS6hgXemkwakArQ9cLRC8ZjMfagasbWZeNj09efP7lq7puqOt3mvZckpUynM6GVjg65eiV49wbLtIg1ZVeOC7CYq8Z6xPGR/RwwxSfqI6nhlPdcKwbpDLcYkZpQ756vNE47xgGi3WhtJ7z3n4sujPlTErpFVfnS8+lE7w3l1Js/6BeakbjUZ3i0gvac8e5l3RCIZVGSEUn5Ev3kYkplzeumvZSEoTUpDyTp7XMY75m2uOBrmuRokcriTGKwRpyikzlds+b7fGUC9Xh9M7hWJei+9jsBTt9xZoRHzLj9GDMj6duhHTnNn8Q/+H25DdFoPWpmla6JwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-3&quot;
+        title=&quot;ask-chatgpt-chromium-3&quot;
+        src=&quot;/static/d202f083210ce6cddce2c23841369b9d/f058b/ask-chatgpt-chromium-3.png&quot;
+        srcset=&quot;/static/d202f083210ce6cddce2c23841369b9d/c26ae/ask-chatgpt-chromium-3.png 158w,
+/static/d202f083210ce6cddce2c23841369b9d/6bdcf/ask-chatgpt-chromium-3.png 315w,
+/static/d202f083210ce6cddce2c23841369b9d/f058b/ask-chatgpt-chromium-3.png 630w,
+/static/d202f083210ce6cddce2c23841369b9d/40601/ask-chatgpt-chromium-3.png 945w,
+/static/d202f083210ce6cddce2c23841369b9d/78612/ask-chatgpt-chromium-3.png 1260w,
+/static/d202f083210ce6cddce2c23841369b9d/28b65/ask-chatgpt-chromium-3.png 2414w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Here is the &lt;code class=&quot;language-text&quot;&gt;KURL&lt;/code&gt; init function&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cpp&quot;&gt;&lt;pre class=&quot;language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;KURL&lt;/span&gt;&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Init&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; KURL&lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt; base&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; String&lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; WTF&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;TextEncoding&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; query_encoding&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// As a performance optimization, we do not use the charset converter&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// if encoding is UTF-8 or other Unicode encodings. Note that this is&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// per HTML5 2.5.3 (resolving URL). The URL canonicalizer will be more&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// efficient with no charset converter object because it can do UTF-8&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// internally with no extra copies.&lt;/span&gt;
+
+  StringUTF8Adaptor &lt;span class=&quot;token function&quot;&gt;base_utf8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;GetString&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// We feel free to make the charset converter object every time since it&apos;s&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// just a wrapper around a reference.&lt;/span&gt;
+  KURLCharsetConverter &lt;span class=&quot;token function&quot;&gt;charset_converter_object&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;query_encoding&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  KURLCharsetConverter&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; charset_converter &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;query_encoding &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;IsUnicodeEncoding&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;query_encoding&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+          &lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;nullptr&lt;/span&gt;
+          &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;charset_converter_object&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Clamp to int max to avoid overflow.&lt;/span&gt;
+  url&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;RawCanonOutputT&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsNull&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Is8Bit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    StringUTF8Adaptor &lt;span class=&quot;token function&quot;&gt;relative_utf8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;relative&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    is_valid_ &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; url&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ResolveRelative&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_utf8&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_utf8&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                     base&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;parsed_&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative_utf8&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                     &lt;span class=&quot;token generic-function&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ClampTo&lt;/span&gt;&lt;span class=&quot;token generic class-name&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;relative_utf8&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                     charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;parsed_&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    is_valid_ &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; url&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ResolveRelative&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_utf8&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_utf8&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                     base&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;parsed_&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Characters16&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                     &lt;span class=&quot;token generic-function&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ClampTo&lt;/span&gt;&lt;span class=&quot;token generic class-name&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                     charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;parsed_&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// url canonicalizes to 7-bit ASCII, using punycode and percent-escapes&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// This makes it safe to call FromUTF8() below and still keep using parsed_&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// which stores byte offsets: Since it&apos;s all ASCII, UTF-8 byte offsets&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// map 1-to-1 to UTF-16 codepoint offsets.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;size_t i &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;i&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;DCHECK&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;WTF&lt;/span&gt;&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsASCII&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;i&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// AtomicString::fromUTF8 will re-hash the raw output and check the&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// AtomicStringTable (addWithTranslator) for the string. This can be very&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// expensive for large URLs. However, since many URLs are generated from&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// existing AtomicStrings (which already have their hashes computed), this&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// fast path is used if the input string is already canonicalized.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;//&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Because this optimization does not apply to non-AtomicStrings, explicitly&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// check that the input is Atomic before moving forward with it. If we mark&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// non-Atomic input as Atomic here, we will render the (const) input string&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// thread unsafe.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsNull&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Impl&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsAtomic&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;StringView&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token generic-function&quot;&gt;&lt;span class=&quot;token function&quot;&gt;static_cast&lt;/span&gt;&lt;span class=&quot;token generic class-name&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;unsigned&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;
+          relative&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    string_ &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    string_ &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;AtomicString&lt;/span&gt;&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;FromUTF8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token function&quot;&gt;InitProtocolMetadata&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;InitInnerURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;DCHECK&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;blink&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ProtocolIsJavaScript&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;string_&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ProtocolIsJavaScript&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Check for deviation characters in the string. See&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// https://unicode.org/reports/tr46/#Table_Deviation_Characters&lt;/span&gt;
+  has_idna2008_deviation_character_ &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+      base&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;has_idna2008_deviation_character_ &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt;
+      relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Contains&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;u&lt;span class=&quot;token string&quot;&gt;&quot;\u00DF&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// Sharp-s&lt;/span&gt;
+      relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Contains&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;u&lt;span class=&quot;token string&quot;&gt;&quot;\u03C2&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// Greek final sigma&lt;/span&gt;
+      relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Contains&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;u&lt;span class=&quot;token string&quot;&gt;&quot;\u200D&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// Zero width joiner&lt;/span&gt;
+      relative&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Contains&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;u&lt;span class=&quot;token string&quot;&gt;&quot;\u200C&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;token comment&quot;&gt;// Zero width non-joiner&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The &lt;code class=&quot;language-text&quot;&gt;url::ResolveRelative()&lt;/code&gt; function seems to be one holding the logic.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7ff2356ab737c05cd4fafa5854d2ea46/764d0/ask-chatgpt-chromium-4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 54.43037974683544%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB2ElEQVQoz42R63KjMAxGef9n685k2m2SDQkkhADmahNjm1vODrDt361nzkiW7U+y5CltyaUlbzqySiPqhc0vpaEzjs72P8Yrm5a3U8N75DikL/bJxCGd/9mJk3jxJ504JuN/8bMRT2vLI815tppGFDRlRS0KVNkiS0mdV1jjGCYYpxfjYueNYXptjC/6cbOe7hyJqCnLlo/3PW+/dux2H/ifvzn+3vH5scM/XxFFje1njBvp7EBnR9ww44bXmmh+bXi6s/hRRdkOa+9EbUgLRRAcCYMDl8Bn7985nmPCe8HlJgiinEskKFVPrWe0nXBrsgnvqR1lVTFYR68tMDMOA22ryYuKoqhopMJagzEd1hics99702m03nDO4T2qHpGXONfTqhZj7HpYlBWn8wX/EnAOQoLrjdM5WDmefKI4IYof3O7xN7Vstx4ugn3f87WWCutGEt6ib67RnVsUEyfp+nixjzQjTrLVTzJBLRVeZyyiqLD6SZelPKOI9vGgKEou4ZXwGhFcN9FFQBQlqShIRb6KLLHFX2KNarehLIK6VsT7AyIMEGGIlJIkyyiqCtU+qaVEqnbt5xfLL1akoqobtDF42mxf7jqzDkeq5WJDIyVKqR/TKrUW8RfobD9A13lxyAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-4&quot;
+        title=&quot;ask-chatgpt-chromium-4&quot;
+        src=&quot;/static/7ff2356ab737c05cd4fafa5854d2ea46/f058b/ask-chatgpt-chromium-4.png&quot;
+        srcset=&quot;/static/7ff2356ab737c05cd4fafa5854d2ea46/c26ae/ask-chatgpt-chromium-4.png 158w,
+/static/7ff2356ab737c05cd4fafa5854d2ea46/6bdcf/ask-chatgpt-chromium-4.png 315w,
+/static/7ff2356ab737c05cd4fafa5854d2ea46/f058b/ask-chatgpt-chromium-4.png 630w,
+/static/7ff2356ab737c05cd4fafa5854d2ea46/40601/ask-chatgpt-chromium-4.png 945w,
+/static/7ff2356ab737c05cd4fafa5854d2ea46/78612/ask-chatgpt-chromium-4.png 1260w,
+/static/7ff2356ab737c05cd4fafa5854d2ea46/764d0/ask-chatgpt-chromium-4.png 1898w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;And then I traced to &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/refs/heads/main:url/url_util.cc;drc=9329f990b89052f1e7f82e0a1a4b298b72359263;l=317&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;DoResolveRelative()&lt;/code&gt;&lt;/a&gt; in &lt;code class=&quot;language-text&quot;&gt;url/url_util.cc&lt;/code&gt;. We’re getting close!&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cpp&quot;&gt;&lt;pre class=&quot;language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;typename&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CHAR&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;DoResolveRelative&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; base_spec_len&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; Parsed&lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; CHAR&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; in_relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; in_relative_length&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       CharsetConverter&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       CanonOutput&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                       Parsed&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; output_parsed&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Remove any whitespace from the middle of the relative URL, possibly&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// copying to the new buffer.&lt;/span&gt;
+  STACK_UNINITIALIZED RawCanonOutputT&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;CHAR&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; whitespace_buffer&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; relative_length&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; CHAR&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; relative &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;RemoveURLWhitespace&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+      in_relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; in_relative_length&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;whitespace_buffer&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;relative_length&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;output_parsed&lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt;potentially_dangling_markup&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; base_is_authority_based &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; base_is_hierarchical &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+      base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;is_nonempty&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; after_scheme &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// Skip past the colon.&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; num_slashes &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;CountConsecutiveSlashes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; after_scheme&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                                              base_spec_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    base_is_authority_based &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; num_slashes &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    base_is_hierarchical &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; num_slashes &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  SchemeType unused_scheme_type &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; SCHEME_WITH_HOST_PORT_AND_USER_INFORMATION&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; standard_base_scheme &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+      base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;is_nonempty&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;DoIsStandard&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;unused_scheme_type&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; is_relative&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  Component relative_component&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsRelativeURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative_length&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_is_hierarchical &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt; standard_base_scheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;is_relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;relative_component&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Error resolving.&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Don&apos;t reserve buffer space here. Instead, reserve in DoCanonicalize and&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ReserveRelativeURL, to enable more accurate buffer sizes.&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Pretend for a moment that |base_spec| is a standard URL. Normally&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// non-standard URLs are treated as PathURLs, but if the base has an&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// authority we would like to preserve it.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;is_relative &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; base_is_authority_based &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;standard_base_scheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Parsed base_parsed_authority&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;ParseStandardURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_spec_len&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;base_parsed_authority&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_parsed_authority&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;host&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;is_nonempty&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      STACK_UNINITIALIZED RawCanonOutputT&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; temporary_output&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; did_resolve_succeed &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+          &lt;span class=&quot;token function&quot;&gt;ResolveRelativeURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_parsed_authority&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                             relative_component&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                             &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;temporary_output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; output_parsed&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// The output_parsed is incorrect at this point (because it was built&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// based on base_parsed_authority instead of base_parsed) and needs to be&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// re-created.&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;DoCanonicalize&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;temporary_output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; temporary_output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     REMOVE_WHITESPACE&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     output_parsed&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; did_resolve_succeed&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;is_relative&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Relative, resolve and canonicalize.&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; file_base_scheme &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;is_nonempty&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+        &lt;span class=&quot;token function&quot;&gt;DoCompareSchemeComponent&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; kFileScheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ResolveRelativeURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base_spec&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; file_base_scheme&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                              relative_component&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                              output_parsed&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Not relative, canonicalize the input.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;DoCanonicalize&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; relative_length&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        DO_NOT_REMOVE_WHITESPACE&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; charset_converter&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; output&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        output_parsed&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And then we get closer:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d2b9dd32cde521ab97f9a029f0ab4409/691b3/ask-chatgpt-chromium-5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 77.21518987341771%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACZUlEQVQ4y42T6W7jNhhF9f4P1gKTH8V0Ei+JY+2UKFMURVGSbS2nED1t08y0KIGDSwrk1beQgTI9UWFRZqS2t/+Faq//QNuRZqO7Esja8vt7TawmUr2S1DNJvfi5X6uZ+BPJB7a10HfK5uY10K0jjhuyUBOeJO/nAiEMlezJCo0yA90Idliw44odfuQ+rUwznqAxHapumaaV63XiPi/orGP3/Mr++Mrb6Uw/3JgX/MH7/CPLsrKsD4LGWNq25eMQmeBw2PP29kYcR/TOMQzDhx0r/zaCpu3QjaHJMuok8Zof9sg45pJl6LKk0xqrFKO1TM7BunrLddNPBGYzrBtEJNjtXjidTuRZRpokpGmKEAKtNY3WOOcYx5Hb7faI82eGj5Q7nO3J85yyLL1JIQqkkFSXCmsty7IwTZM32/Q/U25qwyVXxElMGIaeMpXoqqHve7rOedPWWh9l13VY23nd6u++13j7kU/ZtBZnHHkuPEVRIqWklBIhCh91WUqfQVEU3/cUft+fWTVN400DWSm0bjDGoFSNrCqUNvTDiHM9/TB4hmH0Ol6v3O53pmn2ujHPi4/UG2Z5QVUpjDZEScLL/sDzbs/ucPTzTbf7uOn2/T2MiNMMeVEY29G0lrZz1LVmHAeCNBN+cR2uyEtNmGSco4TTOSSM/9ZzFBPGKYWsyESBNi2t672ZdT2dc75hQS5K1EWTRSlPT7/w5elXfvv6lW/PLxyOr+x9hMe/5sfXN5I046IUqtaouuaiakzbMs/zI2WtDa5tKOITRXTifXshSUIURf4KbV3fdCu+tY+DW0c/s93DPwDbo3EYhORtbwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-5&quot;
+        title=&quot;ask-chatgpt-chromium-5&quot;
+        src=&quot;/static/d2b9dd32cde521ab97f9a029f0ab4409/f058b/ask-chatgpt-chromium-5.png&quot;
+        srcset=&quot;/static/d2b9dd32cde521ab97f9a029f0ab4409/c26ae/ask-chatgpt-chromium-5.png 158w,
+/static/d2b9dd32cde521ab97f9a029f0ab4409/6bdcf/ask-chatgpt-chromium-5.png 315w,
+/static/d2b9dd32cde521ab97f9a029f0ab4409/f058b/ask-chatgpt-chromium-5.png 630w,
+/static/d2b9dd32cde521ab97f9a029f0ab4409/40601/ask-chatgpt-chromium-5.png 945w,
+/static/d2b9dd32cde521ab97f9a029f0ab4409/78612/ask-chatgpt-chromium-5.png 1260w,
+/static/d2b9dd32cde521ab97f9a029f0ab4409/691b3/ask-chatgpt-chromium-5.png 2156w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;At first glance, the function &lt;code class=&quot;language-text&quot;&gt;IsRelativeURL()&lt;/code&gt; only process the params and return a boolean.
+But after a closer look, the function is also putting the url result in the
+pointer param. Oh right, it’s a norm to do that in C++.&lt;/p&gt;
+&lt;p&gt;And finally we get to &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/refs/heads/main:url/url_canon_relative.cc;l=103;drc=9329f990b89052f1e7f82e0a1a4b298b72359263;bpv=0;bpt=1&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;DoIsRelativeURL()&lt;/code&gt;&lt;/a&gt; in &lt;code class=&quot;language-text&quot;&gt;url/url_canon_relative.cc&lt;/code&gt;,
+that follow some logic to determine if the string is a relative url or absolute url.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cpp&quot;&gt;&lt;pre class=&quot;language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// See IsRelativeURL in the header file for usage.&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;typename&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CHAR&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;DoIsRelativeURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; base&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; Parsed&lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; CHAR&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; is_base_hierarchical&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; is_relative&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                     Component&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; relative_component&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;is_relative &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// So we can default later to not relative.&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Trim whitespace and construct a new range for the substring.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; begin &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;TrimURL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;begin&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;begin &lt;span class=&quot;token operator&quot;&gt;&gt;=&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Empty URLs are relative, but do nothing.&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;is_base_hierarchical&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// Don&apos;t allow relative URLs if the base scheme doesn&apos;t support it.&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;relative_component &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Component&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;begin&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;is_relative &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token macro property&quot;&gt;&lt;span class=&quot;token directive-hash&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;token directive keyword&quot;&gt;ifdef&lt;/span&gt; &lt;span class=&quot;token expression&quot;&gt;WIN32&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// We special case paths like &quot;C:\foo&quot; so they can link directly to the&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// file on Windows (IE compatibility). The security domain stuff should&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// prevent a link like this from actually being followed if its on a&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// web page.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;//&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// We treat &quot;C:/foo&quot; as an absolute URL. We can go ahead and treat &quot;/c:/&quot;&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// as relative, as this will just replace the path when the base scheme&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// is a file and the answer will still be correct.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;//&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// We require strict backslashes when detecting UNC since two forward&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// slashes should be treated a a relative URL with a hostname.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;DoesBeginWindowsDriveSpec&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; begin&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;DoesBeginUNCPath&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; begin&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token macro property&quot;&gt;&lt;span class=&quot;token directive-hash&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;token directive keyword&quot;&gt;endif&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// WIN32&lt;/span&gt;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// See if we&apos;ve got a scheme, if not, we know this is a relative URL.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// BUT, just because we have a scheme, doesn&apos;t make it absolute.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// &quot;http:foo.html&quot; is a relative URL with path &quot;foo.html&quot;. If the scheme is&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// empty, we treat it as relative (&quot;:foo&quot;), like IE does.&lt;/span&gt;
+  Component scheme&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;bool&lt;/span&gt; scheme_is_empty &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+      &lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ExtractScheme&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt; scheme&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;len &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;scheme_is_empty&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;begin&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;#&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// |url| is a bare fragment (e.g. &quot;#foo&quot;). This can be resolved against&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// any base. Fall-through.&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;is_base_hierarchical&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// Don&apos;t allow relative URLs if the base scheme doesn&apos;t support it.&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;relative_component &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;MakeRange&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;begin&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;is_relative &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// If the scheme isn&apos;t valid, then it&apos;s relative.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsValidScheme&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; scheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;begin&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;#&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+        base&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;FeatureList&lt;/span&gt;&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;IsEnabled&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            kResolveBareFragmentWithColonOnNonHierarchical&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// |url| is a bare fragment (e.g. &quot;#foo:bar&quot;). This can be resolved&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// against any base. Fall-through.&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;is_base_hierarchical&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// Don&apos;t allow relative URLs if the base scheme doesn&apos;t support it.&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;relative_component &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;MakeRange&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;begin&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;is_relative &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// If the scheme is not the same, then we can&apos;t count it as relative.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;AreSchemesEqual&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;base&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; base_parsed&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scheme&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; scheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// When the scheme that they both share is not hierarchical, treat the&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// incoming scheme as absolute (this way with the base of &quot;data:foo&quot;,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// &quot;data:bar&quot; will be reported as absolute.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;is_base_hierarchical&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; colon_offset &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; scheme&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// If it&apos;s a filesystem URL, the only valid way to make it relative is not to&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// supply a scheme. There&apos;s no equivalent to e.g. http:index.html.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;CompareSchemeComponent&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; scheme&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; kFileSystemScheme&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// ExtractScheme guarantees that the colon immediately follows what it&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// considers to be the scheme. CountConsecutiveSlashes will handle the&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// case where the begin offset is the end of the input.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; num_slashes &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;CountConsecutiveSlashes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; colon_offset &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;num_slashes &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt; num_slashes &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// No slashes means it&apos;s a relative path like &quot;http:foo.html&quot;. One slash&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// is an absolute path. &quot;http:/home/foo.html&quot;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;is_relative &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;relative_component &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;MakeRange&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;colon_offset &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; url_len&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Two or more slashes after the scheme we treat as absolute.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Near the end of the function, the code is counting the number of consecutive slashes
+(at the beginning of the substring, right after scheme colon offset, if any)
+to determine if the url is a relative one. But it doesn’t mention whether
+it’s slash or backslash. Hmmmmm.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/64c29728064f5ba5e489ee7eb8e5b90d/66632/ask-chatgpt-chromium-6.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 48.10126582278481%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABbklEQVQoz63R227TQBCAYb//g3ETgTDQpCVNbCdxfNiDveOzY/tHNSnqBQgVMdKnmR1p52LGs9JiXIdxLda1jOPAOPTv1vfdygvTim+h8BAJ20gIsp5Qjf/M258tH59y/L1i8xCvw4/5xCG7/cH0G/d+PuEpZajrmv8Ty8+BbS2MzjK6glEKBq2Ym5reaHqtGMqCNksYCsso7pfBlWvurWEe+nWkd0ktp2dF9OVC4Ec8bw5sN1u2/o7klHI5nEmihOQQk6eWUgZcNSDNjerOyct7ouoXvCA2RJFwPXfE15boWhElQhBbYlVzVkIcN4RHwX8M8XcBYVyS5gPBteSUClombAO2mvGUMXRVQ2daztF3DvvPXKJHmlqwRq+5MBqtMqrKMU83WGaY57Ve5tu6u9fw0lzTNC2tdDztvuJ/+kB43KJUTpbnaG1QSiEiaz2O4339b06xvFhWXpZrXCl0ZY+UFW3X//2W989vvfZ/AAuj/F+ii19eAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-6&quot;
+        title=&quot;ask-chatgpt-chromium-6&quot;
+        src=&quot;/static/64c29728064f5ba5e489ee7eb8e5b90d/f058b/ask-chatgpt-chromium-6.png&quot;
+        srcset=&quot;/static/64c29728064f5ba5e489ee7eb8e5b90d/c26ae/ask-chatgpt-chromium-6.png 158w,
+/static/64c29728064f5ba5e489ee7eb8e5b90d/6bdcf/ask-chatgpt-chromium-6.png 315w,
+/static/64c29728064f5ba5e489ee7eb8e5b90d/f058b/ask-chatgpt-chromium-6.png 630w,
+/static/64c29728064f5ba5e489ee7eb8e5b90d/40601/ask-chatgpt-chromium-6.png 945w,
+/static/64c29728064f5ba5e489ee7eb8e5b90d/78612/ask-chatgpt-chromium-6.png 1260w,
+/static/64c29728064f5ba5e489ee7eb8e5b90d/66632/ask-chatgpt-chromium-6.png 1504w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;A function &lt;a href=&quot;https://source.chromium.org/chromium/chromium/src/+/refs/heads/main:url/url_parse_internal.h;l=15;drc=991110a34dafb7233475cdfa91c3416d1e91b724;bpv=1;bpt=1&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;IsURLSlash()&lt;/code&gt;&lt;/a&gt;…?&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/323874d36260238920f40a5b09259048/985a9/ask-chatgpt-chromium-7.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 48.734177215189874%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABhUlEQVQoz4XRa2+bMBiGYf7/j6vWbu1yaKEhgYSDsQ0+YRLuKTTalqlTX+mSn+eLJb9OZO+opaNRnqpz9DYQ40gYA+Nv45dCCItEqIHvmeZhK3nYdDymms1xurO+KiPrY7w/y7/6YiJRvWWVNXxbHXjalDyuC16ylue0WTxtT6RHy0nPHNXlS4l1gb4fmIMjqo5JK0JbE5UkannL3Y1k7FrOpifKjlGKpU+9WvLZDiTGeqpaoJSm1z3aDYhB0Q5ycc3SajqjaPoOO3rmGS6X+VPLhUIIfOfwrcVZw3yZ+Hzm//gzSW88b7ngkHXk64rd9sTqxyubl4y35z27nyXpKifPKoq8pdwLjqWi2NUcsmrpjRzpzIwYLiSDDbwfWurSUu0MRSEpG8mhEuT7llY4amXQbsJFFibMNx95uPIfEuM8TdNgG4M9GZqiJk1f2b/v0IVCV5K+VZxtxFuLd+af59/PssPjqSaGyBTOWOcw1uBdYPIT0U+MLhLdRPABH8LyKfM8f+oX5TX9n6dsyp4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ask-chatgpt-chromium-7&quot;
+        title=&quot;ask-chatgpt-chromium-7&quot;
+        src=&quot;/static/323874d36260238920f40a5b09259048/f058b/ask-chatgpt-chromium-7.png&quot;
+        srcset=&quot;/static/323874d36260238920f40a5b09259048/c26ae/ask-chatgpt-chromium-7.png 158w,
+/static/323874d36260238920f40a5b09259048/6bdcf/ask-chatgpt-chromium-7.png 315w,
+/static/323874d36260238920f40a5b09259048/f058b/ask-chatgpt-chromium-7.png 630w,
+/static/323874d36260238920f40a5b09259048/40601/ask-chatgpt-chromium-7.png 945w,
+/static/323874d36260238920f40a5b09259048/78612/ask-chatgpt-chromium-7.png 1260w,
+/static/323874d36260238920f40a5b09259048/985a9/ask-chatgpt-chromium-7.png 1512w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Omg, it treats backslash the same as normal slash, for IE compatibility!&lt;/p&gt;
+&lt;p&gt;Which means, the string &lt;code class=&quot;language-text&quot;&gt;\\abc.com&lt;/code&gt; could also cause domain change in redirect.&lt;/p&gt;
+&lt;h1 id=&quot;what-ive-learnt&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-ive-learnt&quot; aria-label=&quot;what ive learnt permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What I’ve learnt&lt;/h1&gt;
+&lt;p&gt;First of all, &lt;strong&gt;the browser redirect url construction is complicated, and not standardized&lt;/strong&gt;.
+We must rely on browser API to produce the exact result.&lt;/p&gt;
+&lt;p&gt;Second, ChatGPT’s performance is extraordinary!
+Although it could not give us the correct answer like a miracle machine,
+&lt;strong&gt;the guidance from ChatGPT in reading source code significantly reduced the learning barrier&lt;/strong&gt;. It’s like
+getting help from a chromium developer, pointing directions for you to understand the codebase.
+If you feed it a function source code, it can do a very good summary about what the code is doing.
+Can’t imagine how far would it get after a year or two.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Multi threading in node-js]]></title><description><![CDATA[Recently I happened to write some nodejs scripts to do some simple static analysis with babel.
 But the program took quite some time to…]]></description><link>https://cccv.blog/2022-06-25-multi-threading-in-node-js/</link><guid isPermaLink="false">https://cccv.blog/2022-06-25-multi-threading-in-node-js/</guid><pubDate>Sat, 25 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Recently I happened to write some nodejs scripts to do some simple static analysis with babel.
 But the program took quite some time to finish. Time for optimization.&lt;/p&gt;
 &lt;p&gt;We always say “nodejs is single-threaded”. And we seldom use nodejs to run code with multithreading (maybe it’s just me).
