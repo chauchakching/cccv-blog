@@ -1,4 +1,189 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 03 May 2023 16:49:31 GMT</lastBuildDate><item><title><![CDATA[The Right Setup to Run TypeScript with Node.js and Importing ESM NPM Modules in a TypeScript Web Frontend]]></title><description><![CDATA[In this blog post, we will discuss the discovery and teaching of the right setup to run TypeScript with Node.js and importing some ESM NPM…]]></description><link>https://cccv.blog/2023-05-04-typescript-nodejs-scripts-folder-setup-with-esm-imports/</link><guid isPermaLink="false">https://cccv.blog/2023-05-04-typescript-nodejs-scripts-folder-setup-with-esm-imports/</guid><pubDate>Thu, 04 May 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In this blog post, we will discuss the discovery and teaching of the right setup to run TypeScript with Node.js and importing some ESM NPM modules, inside the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, under the repo setup that is for a TypeScript web frontend, without changing config files on the repo root level.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[cccv blog]]></title><description><![CDATA[cccv blog]]></description><link>https://cccv.blog</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 01 Feb 2026 16:13:49 GMT</lastBuildDate><item><title><![CDATA[(づ ◕‿◕ )づ Kaomoji-copy web app]]></title><description><![CDATA[The creative variation of 顏文字 (kaomoji) has always been fasinating to me. Cute and easy to use as text.
+But we I want to search for one…]]></description><link>https://cccv.blog/2026-02-01-kaomoji-copy-web-app/</link><guid isPermaLink="false">https://cccv.blog/2026-02-01-kaomoji-copy-web-app/</guid><pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/0e758/kaomoji-copy-website.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.69620253164557%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA6UlEQVQoz32S2Q6EIAxF/f+/JD5jjBtu2MkhuZMq45A0pdAeboHmui5j4J/GmOfZQgjWtq2N41jlamje+ODX2Pfduq6zGKNt21btezC+8QEFAOTXdS12HIed51kMxayllGyaprLnwTdgzvlmAPDAKWQuzx7rVcu+XSXLiFGLH4ahKNM6MHVVtawF2iARY44B0TXQIsqWZfkqZF617IH+3jAdQiGxDlAO/hWICgGlqu/7EgvIo3iVHPgKpJAk/ptXoTvzvwCQOvAPcwNy8STrdMB4AfRAXt3fO5Qi2uIBKABKjAHEK4cXfwI/jjxh0l8ByJ0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;kaomoji-copy-website&quot;
+        title=&quot;kaomoji-copy-website&quot;
+        src=&quot;/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/f058b/kaomoji-copy-website.png&quot;
+        srcset=&quot;/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/c26ae/kaomoji-copy-website.png 158w,
+/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/6bdcf/kaomoji-copy-website.png 315w,
+/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/f058b/kaomoji-copy-website.png 630w,
+/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/40601/kaomoji-copy-website.png 945w,
+/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/78612/kaomoji-copy-website.png 1260w,
+/static/aa1ac8e426af6ad71d4a72efa4aeb4c3/0e758/kaomoji-copy-website.png 2502w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The creative variation of 顏文字 (kaomoji) has always been fasinating to me. Cute and easy to use as text.
+But we I want to search for one online, the first few search results of popular kaomoji websites are always so bad.
+They all have a simple purpose: to let user search and copy kaomoji. But the UX can’t be worse.&lt;/p&gt;
+&lt;p&gt;With the rise of AI technology, it can’t be easier to create new projects and web apps with agents.
+I finally made up my mine to make my self one, a kaomoji copy web app (＃`Д´)&lt;/p&gt;
+&lt;p&gt;The final product is here: &lt;a href=&quot;https://kaomoji.online/&quot;&gt;https://kaomoji.online/&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;the-popular-website-ui-sucks&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-popular-website-ui-sucks&quot; aria-label=&quot;the popular website ui sucks permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The popular website UI sucks&lt;/h1&gt;
+&lt;p&gt;A kaomoji copy website is quite niche. Most of the websites look old. Take the first google search result as an example:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9b872fd5a31df56bf4f3874a8bf6613e/299ae/website-1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.79746835443038%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACuElEQVQoz02QyUvUARzFJ6LdrKGyXH6TTrNoLjOm4xIlszSmjY5NNkjLnxF06FJHIUiEghYqIurQKTp06BB1sFVNRQspK6xcfvsyTlb0CX8j1eHxHt/v4/F9X0dlcwdCVQsFRV52unZR4i1nteBhhcdHXnUVgeYopYEGNhW5WO/cwppiAW9bnO21jZQUlrCtuYmtsRRF0Q7KG1tw7G5oR6gJU7zdi3dDERVOD74NZXg3luKqrKU63Ep9tB1/TQhfMERZIEhNMkFFshtPZZB8t8C6AgF/RYCKvREcdeFuvPWtuEL72eTysFnw4Czx49xahttfR3Gsk8LQXgrrmhDCcdy1IXyN+9hVFaR4yw7y8vJZ6SxkVX4B69ZuxuHdE6e0JsKBZA/J1DESiS7ajx4nnD5BJJ0m3pMicihG7GQ3B9JJ2lIJutJddHXGaY21kkylaes4wuHOHhKROA5/qA13IMrAizd8X/yJpOgY5gK6mcVSv2HMjmLMT2CKb9Fmx8gok/ywPrNoTWNalu0zMt8xjAy6uYDDV38QdzDK89ejyKrBh0/TSIpma1ExmJdNRMVCVEwk1bL1vGzYEGXV9uagoxmZ5QuDUQZejrCQXUSSVdsoq7rNoqwwMyfmtKTYe2l5Pi/mkPMbqLqFo7yh3Q58Zl+oM/X5C7qRQdUztkFbgvEP9my53hL/Dzvw7w9fvuHHr9+5n1hZO1w3l4xZNHPRZkXPYloZVE23a6qqjqoaSLKGppm5yu5gjLJAhFfDE4yMjXLj5jWGhoeYmJxiaHiQ4cEnjI885t3YAJPjTxkYnGD8wxdUVWFKVJiak5BkmfezEqJm4RAqWyitDjP69iN9F3rZX7WeM6dSXOk/x+1L57l19SwPrye5c/k09+5epK+/lwfPnmPOTHL/0SPezShkv07zce4bs1qGP4p6XIz2i0RiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;website-1&quot;
+        title=&quot;website-1&quot;
+        src=&quot;/static/9b872fd5a31df56bf4f3874a8bf6613e/f058b/website-1.png&quot;
+        srcset=&quot;/static/9b872fd5a31df56bf4f3874a8bf6613e/c26ae/website-1.png 158w,
+/static/9b872fd5a31df56bf4f3874a8bf6613e/6bdcf/website-1.png 315w,
+/static/9b872fd5a31df56bf4f3874a8bf6613e/f058b/website-1.png 630w,
+/static/9b872fd5a31df56bf4f3874a8bf6613e/40601/website-1.png 945w,
+/static/9b872fd5a31df56bf4f3874a8bf6613e/78612/website-1.png 1260w,
+/static/9b872fd5a31df56bf4f3874a8bf6613e/299ae/website-1.png 3414w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;From the first look of homepage, it’s nothing like a website for searching &amp;#x26; copying kaomoji. All the UI are chinese texts.
+Bloated with all kinds of tags and categories.&lt;/p&gt;
+&lt;h2 id=&quot;the-easy-way-the-bad-way&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-easy-way-the-bad-way&quot; aria-label=&quot;the easy way the bad way permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The easy way, the bad way&lt;/h2&gt;
+&lt;p&gt;When one designs a website for user to search categoried kaomoji, the first thing that comes to mind would possibly be simply showing all the available categories for user to choose from. The straight forward thinking:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;I have a bunch of kaomoji data, most of them are categorized already&lt;/li&gt;
+&lt;li&gt;If the UI shows the categories, then the user can use it to search and find what they want&lt;/li&gt;
+&lt;li&gt;Make a website with 13 categories and 40+ tags for user to choose from&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It might work, but it’s totally not what the user may be thinking when using the website at all.&lt;/p&gt;
+&lt;h3 id=&quot;overwhelming-category-choices&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#overwhelming-category-choices&quot; aria-label=&quot;overwhelming category choices permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Overwhelming category choices&lt;/h3&gt;
+&lt;p&gt;When I go to an online shopping mall to buy something, I already have a rough idea of the type of thing it is.
+Milk: probably supermarket. Powerbank: electronics. Air fryer: kitchen appliance maybe.&lt;/p&gt;
+&lt;p&gt;People already have a rought idea about the type of thing it is.&lt;/p&gt;
+&lt;p&gt;But for kaomoji, there can be many categories. And user &lt;strong&gt;probably don’t know about them&lt;/strong&gt;.
+User would need to check all the provided categories. It’s &lt;strong&gt;tiring&lt;/strong&gt;. The mental load is huge.
+Asking user to pick one from many unfamiliar choices deters user.&lt;/p&gt;
+&lt;h3 id=&quot;ambiguous-category&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ambiguous-category&quot; aria-label=&quot;ambiguous category permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Ambiguous category&lt;/h3&gt;
+&lt;p&gt;Can you guess the category of the kaomoji ”／(＞ × ＜)＼” ?&lt;/p&gt;
+&lt;p&gt;How about “(っ ᵔ◡ᵔ)っ” ?&lt;/p&gt;
+&lt;p&gt;It’s just disgusting to let user to use a chinese text category/tag to reduce the scope.&lt;/p&gt;
+&lt;h2 id=&quot;where-are-the-kaomoji&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#where-are-the-kaomoji&quot; aria-label=&quot;where are the kaomoji permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Where are the kaomoji?&lt;/h2&gt;
+&lt;p&gt;I can’t believe the first view of the homepage are just countless categories and tags.
+It fails to deliver the message of &lt;strong&gt;what is this website about?&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;too-much-spacing&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#too-much-spacing&quot; aria-label=&quot;too much spacing permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Too much spacing&lt;/h2&gt;
+&lt;p&gt;If the category fails its job, the user would just want to quickly scan through the pages to look for the most suitable kaomoji.
+But there are just too much spacing, and too few content.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d626ece7c68cb7fc4a4a51b16f334c7c/1cfc2/website-1-list.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 189.873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAmCAYAAADEO7urAAAACXBIWXMAABYlAAAWJQFJUiTwAAACj0lEQVRIx7VW2W7bMBD0//9UUaBoGxQImqBNczg+kDrKQxpK4iHxkKZYWrRpSVRsoyUwlkwtB+TucMhZUQrISkN1ELIClxXyQpwM4pq9sRIfP3/Dh08XHlc/7nB9c4+8lKej4JixvMTPu0fc3C/w636BxXqD9e8MrBB4y/kIxDj8LDlmRSFgXYOmaeGaFtY6GOtQ1RpaW2izR62N7x/C+HR5QvpxrgG1tm0RN2MMqqqC1hp1XcM5h1SjsaOEgZQGL5ZLLFcrvL7+we/NBvP5I7Is6+Li+NavMEkYSONnH/0VHRBa50YHHYOG0DQeO0L6c26rlMLl5aV/J8V4Qq2Nr+45MJaqr2GM3c+QdUpnEbz6SwmW8wNsBdyLLcOYkEO7zSEl1qNtfZWttYMlUp/rdBuD+vZVjnIYKielxJevF3h4mCPPC+R5jtvbO3y/uvba7IL3VU7pMH4qpZBlLyiKwiN7edmR9SU1osNxraV2RT/GxbJJEbadxsbeAxlty/V6DfoX6bA9W4e031er1aEOCy7BhUI5BT7eR2Zca+s5djMkl5aqTiK4eeo7jReqjpbcTi+ZcjdlXaFNuk0owub5GZvNM5bLlX8G4mFs+z5h8MVQXZdwpYF9uQn76hvvaEy3mv9oX2a74Wmmp6HxZlFVtTeY3QzpeGQFH1gVGzlGBzHB5vr2FVt5jDEJDTFhX5EFbLWV5xBCQEoFxlhaq+ljFLsjkpoQEpxzT8qFOIh7x77Sx2XKuibs67xjNNjX09PTP7QvrfE4n3f57nRIVuTvhUKdDBqnjfMcuxnyzr62NtRHZFMeve/+grolPmHJ76eEUnqU29A1rixLvDEGqVQy7mjZHOM4o/aFM29fsRkT4V+mYpw26fXNdAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;website-1-list&quot;
+        title=&quot;website-1-list&quot;
+        src=&quot;/static/d626ece7c68cb7fc4a4a51b16f334c7c/f058b/website-1-list.png&quot;
+        srcset=&quot;/static/d626ece7c68cb7fc4a4a51b16f334c7c/c26ae/website-1-list.png 158w,
+/static/d626ece7c68cb7fc4a4a51b16f334c7c/6bdcf/website-1-list.png 315w,
+/static/d626ece7c68cb7fc4a4a51b16f334c7c/f058b/website-1-list.png 630w,
+/static/d626ece7c68cb7fc4a4a51b16f334c7c/1cfc2/website-1-list.png 900w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;the-dreadful-text-overflow&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-dreadful-text-overflow&quot; aria-label=&quot;the dreadful text overflow permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The dreadful text overflow&lt;/h2&gt;
+&lt;p&gt;Some kaomoji are very long. If the kaomoji happens to be in list, the dreadful horizontal scrollbar appears.&lt;/p&gt;
+&lt;div style=&quot;display: flex; gap: 1rem;&quot;&gt;
+  &lt;span class=&quot;gatsby-resp-image-wrapper&quot; style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;&gt;
+      &lt;a class=&quot;gatsby-resp-image-link&quot; href=&quot;/static/d3996af6978502f503d74c2e0ff4cff2/b04e4/website-1-horizontal-scroll-1.png&quot; style=&quot;display: block&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span class=&quot;gatsby-resp-image-background-image&quot; style=&quot;padding-bottom: 198.1012658227848%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&quot;gatsby-resp-image-image&quot; alt=&quot;horizontal-scroll-1&quot; title=&quot;horizontal-scroll-1&quot; src=&quot;/static/d3996af6978502f503d74c2e0ff4cff2/f058b/website-1-horizontal-scroll-1.png&quot; srcset=&quot;/static/d3996af6978502f503d74c2e0ff4cff2/c26ae/website-1-horizontal-scroll-1.png 158w,
+/static/d3996af6978502f503d74c2e0ff4cff2/6bdcf/website-1-horizontal-scroll-1.png 315w,
+/static/d3996af6978502f503d74c2e0ff4cff2/f058b/website-1-horizontal-scroll-1.png 630w,
+/static/d3996af6978502f503d74c2e0ff4cff2/b04e4/website-1-horizontal-scroll-1.png 888w&quot; sizes=&quot;(max-width: 630px) 100vw, 630px&quot; style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+  &lt;span class=&quot;gatsby-resp-image-wrapper&quot; style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;&gt;
+      &lt;a class=&quot;gatsby-resp-image-link&quot; href=&quot;/static/8670df0100b891fe55ff40d8c301b0cf/38af3/website-1-horizontal-scroll-2.png&quot; style=&quot;display: block&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span class=&quot;gatsby-resp-image-background-image&quot; style=&quot;padding-bottom: 206.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAApCAYAAAA1bQl+AAAACXBIWXMAABYlAAAWJQFJUiTwAAABZklEQVRIx82W646DIBCFff9n7P7b2mK7KgyKqHg2421ps+6agklJviAGj8AcZ0yk0uj7PgIOxhgkLBirNU0zCQ7DEAVjVkEEi3FbBaNuuZCEUmmUMgClUUgNKQkJDxrbRkFX9WFRjhyUcRxB8DgfxjtDi6SUBNt2Uag4yuzDQgb6UHo+fI6yc+5FvDNcUtASrVebtS0S0jVu9zs+z2eklwtElkEIASEyD+Hd+72/XgW+8hyJrswokqYptNZQSs3QRq+e5tDDnHGFfEFEwbax1j76MJqxOUIcqff9UjgwMSCqJkHSBhycTfaIVQaKBfdsmc+Hje9cD9d7+GPn1eWtBMsTSilxOn0gu90m03tkfi8E8ryYBTdWxm9dPst/bYWHuvx3Jt7r0WPq8o+xw1hXuCTYcAjlkmDbrg+m63rUtXnzQh+1LmOvD98jfZnGTpgXmZ/Vek5fUlXBlGNPB2w5lm2G8f/Q4Bu3EpZVjkSkoAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&quot;gatsby-resp-image-image&quot; alt=&quot;horizontal-scroll-2&quot; title=&quot;horizontal-scroll-2&quot; src=&quot;/static/8670df0100b891fe55ff40d8c301b0cf/f058b/website-1-horizontal-scroll-2.png&quot; srcset=&quot;/static/8670df0100b891fe55ff40d8c301b0cf/c26ae/website-1-horizontal-scroll-2.png 158w,
+/static/8670df0100b891fe55ff40d8c301b0cf/6bdcf/website-1-horizontal-scroll-2.png 315w,
+/static/8670df0100b891fe55ff40d8c301b0cf/f058b/website-1-horizontal-scroll-2.png 630w,
+/static/8670df0100b891fe55ff40d8c301b0cf/38af3/website-1-horizontal-scroll-2.png 894w&quot; sizes=&quot;(max-width: 630px) 100vw, 630px&quot; style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+&lt;h1 id=&quot;making-my-own-kaomoji-website&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#making-my-own-kaomoji-website&quot; aria-label=&quot;making my own kaomoji website permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Making my own kaomoji website&lt;/h1&gt;
+&lt;p&gt;My goal was simple: I need a minimalist website for searching and copying kaomoji. No login, no user submission, no searching.&lt;/p&gt;
+&lt;h2 id=&quot;superpowers&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#superpowers&quot; aria-label=&quot;superpowers permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;superpowers&lt;/h2&gt;
+&lt;p&gt;If it was 3 years ago, I might not have enough motivation to make one.&lt;/p&gt;
+&lt;p&gt;If it was 1 year ago, I might make one but it would take more effort working with agent.&lt;/p&gt;
+&lt;p&gt;If I make it today, I know more about vibe coding now. The first thing came to my mind was making use of the popular development methodology: &lt;a href=&quot;https://github.com/obra/superpowers&quot;&gt;https://github.com/obra/superpowers&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It’s a set of pre-defined skills and workflow prompts, for working on dev project more structured, effective, and robust.
+Instead of random vibe coding chat with agent, the superpowers setup provides a more mature workflow and agent context.
+Working with it is more pleasant, and less headache with overlooked technical details and mistakes.&lt;/p&gt;
+&lt;p&gt;However, since superpowers is made for claude code as a claude code plugin, and I’m using Cursor, it needs a bit of chore to migrate it to cursor setup. For convenience, I put the cursor setup to a new repo for reuse &lt;a href=&quot;https://github.com/chauchakching/superpowers-cursor&quot;&gt;https://github.com/chauchakching/superpowers-cursor&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;getting-started&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#getting-started&quot; aria-label=&quot;getting started permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Getting started&lt;/h2&gt;
+&lt;p&gt;Working with superpowers was pleasant: it starts with providing your initiative, then it asks you a bunch of questions to clarify the goal, scope, and technical decisions.&lt;/p&gt;
+&lt;p&gt;After answering all the questions, it generates 1 or 2 plans docs. Then ask for proceeding to implementation phase.&lt;/p&gt;
+&lt;p&gt;Luckily, Cursor subagent feature was released not long ago. The workflow can make use of subagents to orchestrate the whole implementation in one main chat. Usually you can put aside it and work on something else, to wait for it to complete. It automatically implement, review, and complete the tasks one by one.&lt;/p&gt;
+&lt;h2 id=&quot;planning&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#planning&quot; aria-label=&quot;planning permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Planning&lt;/h2&gt;
+&lt;p&gt;The agent found a few sources of kaomoji. I picked one that already has categorization.&lt;/p&gt;
+&lt;p&gt;The rest are the usual stuffs: React, Typescript, Vite.&lt;/p&gt;
+&lt;h2 id=&quot;feature--ux-iteration&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#feature--ux-iteration&quot; aria-label=&quot;feature  ux iteration permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Feature &amp;#x26; UX Iteration&lt;/h2&gt;
+&lt;p&gt;The first prototype was quite good. Then I progressively work on the UI enhancements and features.&lt;/p&gt;
+&lt;p&gt;At the end, it took me about 3-4 hrs to compelte the whole thing.&lt;/p&gt;
+&lt;h2 id=&quot;your-judgement-is-the-limit-of-ai&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#your-judgement-is-the-limit-of-ai&quot; aria-label=&quot;your judgement is the limit of ai permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Your judgement is the limit of AI&lt;/h2&gt;
+&lt;p&gt;It’s easy to make a web app with AI. But it’s not that easy to make a good one. If you accept everything from AI, it’s not going to end well.&lt;/p&gt;
+&lt;p&gt;Some of the insights from me:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I want to make the whole website with just kaomoji. No text.&lt;/li&gt;
+&lt;li&gt;Text category sucks. Just put 6 main categories. Small enough for user to comprehend.&lt;/li&gt;
+&lt;li&gt;The fine tuning of the layout and spacing are up to me at the end. AI is particularly bad at these stuffs. The balance, visual hierarchy, and aesthetic polish require human judgment.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;final-chore-domain-registration&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#final-chore-domain-registration&quot; aria-label=&quot;final chore domain registration permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Final chore: domain registration&lt;/h2&gt;
+&lt;p&gt;I bought the cheapest domain of $1.2 on namespace. And deployed it to cloudflare pages.&lt;/p&gt;
+&lt;p&gt;Voila, my own kaomoji website. Finally.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The Right Setup to Run TypeScript with Node.js and Importing ESM NPM Modules in a TypeScript Web Frontend]]></title><description><![CDATA[In this blog post, we will discuss the discovery and teaching of the right setup to run TypeScript with Node.js and importing some ESM NPM…]]></description><link>https://cccv.blog/2023-05-04-typescript-nodejs-scripts-folder-setup-with-esm-imports/</link><guid isPermaLink="false">https://cccv.blog/2023-05-04-typescript-nodejs-scripts-folder-setup-with-esm-imports/</guid><pubDate>Thu, 04 May 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In this blog post, we will discuss the discovery and teaching of the right setup to run TypeScript with Node.js and importing some ESM NPM modules, inside the &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; folder, under the repo setup that is for a TypeScript web frontend, without changing config files on the repo root level.&lt;/p&gt;
 &lt;h2 id=&quot;constraints-and-conditions&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#constraints-and-conditions&quot; aria-label=&quot;constraints and conditions permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Constraints and Conditions&lt;/h2&gt;
 &lt;p&gt;Before we dive into the key points of the setup, let’s take a look at the constraints and conditions we will be working with:&lt;/p&gt;
 &lt;ol&gt;
