@@ -3,7 +3,7 @@ title: (づ ◕‿◕ )づ Kaomoji-copy web app
 date: "2026-02-01"
 ---
 
-![kaomoji-copy-website](./kaomoji-copy-website.png)
+[![kaomoji-copy-website](./kaomoji-copy-website.png)](https://kaomoji.online/)
 
 The creative variation of 顏文字 (kaomoji) has always been fasinating to me. Cute and easy to use as text.
 But we I want to search for one online, the first few search results of popular kaomoji websites are always so bad.
