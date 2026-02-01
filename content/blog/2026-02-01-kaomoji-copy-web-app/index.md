@@ -5,12 +5,12 @@ date: "2026-02-01"
 
 [![kaomoji-copy-website](./kaomoji-copy-website.png)](https://kaomoji.online/)
 
-The creative variation of 顏文字 (kaomoji) has always been fasinating to me. Cute and easy to use as text.
+The creative variation of 顏文字 (kaomoji) has always been fascinating to me. Cute and easy to use as text.
 But when I want to search for one online, the first few search results of popular kaomoji websites are always so bad.
 They all have a simple purpose: to let user search and copy kaomoji. But the UX can't be worse.
 
 With the rise of AI technology, it can't be easier to create new projects and web apps with agents.
-I finally made up my mine to make my self one, a kaomoji copy web app (＃`Д´)
+I finally made up my mind to make myself one, a kaomoji copy web app (＃`Д´)
 
 The final product is here: https://kaomoji.online/
 
@@ -25,7 +25,7 @@ Bloated with all kinds of tags and categories.
 
 ## The easy way, the bad way
 
-When one designs a website for user to search categoried kaomoji, the first thing that comes to mind would possibly be simply showing all the available categories for user to choose from. The straight forward thinking:
+When one designs a website for user to search categorized kaomoji, the first thing that comes to mind would possibly be simply showing all the available categories for user to choose from. The straight forward thinking:
 
 1. I have a bunch of kaomoji data, most of them are categorized already
 2. If the UI shows the categories, then the user can use it to search and find what they want
@@ -38,7 +38,7 @@ It might work, but it's totally not what the user may be thinking when using the
 When I go to an online shopping mall to buy something, I already have a rough idea of the type of thing it is.
 Milk: probably supermarket. Powerbank: electronics. Air fryer: kitchen appliance maybe.
 
-People already have a rought idea about the type of thing it is.
+People already have a rough idea about the type of thing it is.
 
 But for kaomoji, there can be many categories. And user **probably don't know about them**.
 User would need to check all the provided categories. It's **tiring**. The mental load is huge.
@@ -109,7 +109,7 @@ The rest are the usual stuffs: React, Typescript, Vite.
 
 The first prototype was quite good. Then I progressively work on the UI enhancements and features.
 
-At the end, it took me about 3-4 hrs to compelte the whole thing.
+At the end, it took me about 3-4 hrs to complete the whole thing.
 
 ## Your judgement is the limit of AI
 
