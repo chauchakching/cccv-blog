@@ -1,6 +1,7 @@
 ---
 title: (づ ◕‿◕ )づ Kaomoji-copy web app
 date: "2026-02-01"
+featuredImage: ./kaomoji-copy-website.png
 ---
 
 [![kaomoji-copy-website](./kaomoji-copy-website.png)](https://kaomoji.online/)
