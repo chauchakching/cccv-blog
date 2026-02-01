@@ -6,7 +6,7 @@ date: "2026-02-01"
 [![kaomoji-copy-website](./kaomoji-copy-website.png)](https://kaomoji.online/)
 
 The creative variation of 顏文字 (kaomoji) has always been fasinating to me. Cute and easy to use as text.
-But we I want to search for one online, the first few search results of popular kaomoji websites are always so bad.
+But when I want to search for one online, the first few search results of popular kaomoji websites are always so bad.
 They all have a simple purpose: to let user search and copy kaomoji. But the UX can't be worse.
 
 With the rise of AI technology, it can't be easier to create new projects and web apps with agents.
