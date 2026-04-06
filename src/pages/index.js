@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -31,8 +31,7 @@ const BlogIndex = ({ data, location }) => {
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
-          const featuredImgFluid =
-            post.frontmatter.featuredImage?.childImageSharp?.fluid
+          const featuredImage = getImage(post.frontmatter.featuredImage)
 
           return (
             <li key={post.fields.slug}>
@@ -49,9 +48,9 @@ const BlogIndex = ({ data, location }) => {
                   </h2>
                   <small>{post.frontmatter.date}</small>
                 </header>
-                {post.frontmatter.featuredImage && (
+                {featuredImage && (
                   <figure>
-                    <Img fluid={featuredImgFluid} />
+                    <GatsbyImage image={featuredImage} alt={title} />
                   </figure>
                 )}
                 <section>
@@ -80,7 +79,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
       nodes {
         excerpt
         fields {
@@ -92,9 +91,7 @@ export const pageQuery = graphql`
           description
           featuredImage {
             childImageSharp {
-              fluid(maxWidth: 800) {
-                ...GatsbyImageSharpFluid
-              }
+              gatsbyImageData(width: 800)
             }
           }
         }
